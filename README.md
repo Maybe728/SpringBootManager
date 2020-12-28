@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # SpringBootManager
 支持多数据源的权限管理框架
 =======
@@ -25,15 +24,14 @@
 - 提供代码生成器(MySQL、Oracle、sqlServer等主流数据库)，生成从Html到Mapper，爽歪歪  
 
 ## 代码仓库
-Gitee地址：[https://gitee.com/zwens/springboot-manager](https://gitee.com/zwens/springboot-manager)   
-GitHub地址：[https://github.com/aitangbao/springboot-manager](https://github.com/aitangbao/springboot-manager)  
-如需更简洁版，请移步:[https://gitee.com/zwens/springboot-manager/tree/simple/](https://gitee.com/zwens/springboot-manager/tree/simple/) 
+
+
 
 ## 开发文档&项目演示
 - 开发文档：[http://doc.aitangbao.com.cn](http://doc.aitangbao.com.cn) 
-- 演示地址：[http://manager.aitangbao.com.cn](http://manager.aitangbao.com.cn/login) 
 - 账号密码：guest/123456
-- 带宽1m 不太给力 请见谅 :joy:
+
+  
 
 ## 开发建议
 - Model内成员变量建议与表字段数量对应，如需扩展成员变量（比如连表查询）建议创建VO，否则需在扩展的成员变量上加@TableField(exist = false)
@@ -102,42 +100,3 @@ GitHub地址：[https://github.com/aitangbao/springboot-manager](https://github.
 	- SQL监控
 	- 接口管理
 	
-## **效果图**
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0929/142027_57d18746_997722.png "home1.png")
-![2](https://images.gitee.com/uploads/images/2020/0521/110629_7526055a_997722.png)
-
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0929/141804_f9c05c92_997722.png "r1.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0929/141813_6f30bb41_997722.png "r2.png")
-![4](https://images.gitee.com/uploads/images/2020/0521/110629_4f2a354d_997722.png)
-![5](https://images.gitee.com/uploads/images/2020/0521/110630_a38ee132_997722.png)
-
-![7](https://images.gitee.com/uploads/images/2020/0521/110629_edd63da6_997722.png)
-
-![](http://tuchuang.aitangbao.com.cn/20200527110224.png)
-
-![](http://tuchuang.aitangbao.com.cn/20200703175432.png)
-
-![image-20200430172452726](https://images.gitee.com/uploads/images/2020/0521/110630_1eae800b_997722.png)
-
-![9](https://images.gitee.com/uploads/images/2020/0521/110630_ab5c75a2_997722.png)
-
-![13](https://images.gitee.com/uploads/images/2020/0521/110630_bcf841b9_997722.png)
-
-![16](https://images.gitee.com/uploads/images/2020/0521/110630_4f083ac7_997722.png)
-
-### 其他
-> 如果您手头有多余的项目，想找人接私活，那么请一定联系我， 靠谱！
-
-### 捐赠
-> 项目的发展离不开您的支持， 如果您够宽裕，请作者喝杯咖啡吧！
-![image-20200506154143271](https://images.gitee.com/uploads/images/2020/0521/110630_6be55411_997722.png)
-
-### 交流群
-> 每周会定期更新，如果二维码过期请先清除浏览器缓存后，重新扫码二维码；如再不行可以私信作者，或邮箱lwb_1128@163.com  
->
-> 加群二维码仅工作日开放， 周末不开放， 如果着急，请使用其他方式联系作者
-
-<img width="300px" height="400px" src="https://images.gitee.com/uploads/images/2020/1201/085054_bde7ed7f_997722.jpeg" alt="" style="zoom:25%;" /> 
-
->>>>>>> first commit
