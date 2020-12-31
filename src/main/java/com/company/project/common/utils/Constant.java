@@ -1,5 +1,8 @@
 package com.company.project.common.utils;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.company.project.common.aop.annotation.DataScope;
+
 /**
  * Constant
  *
@@ -44,4 +47,5 @@ public class Constant {
     public static final Integer DATA_SCOPE_DEPT_AND_CHILD = 3;
     public static final Integer DATA_SCOPE_DEPT = 4;
     public static final Integer DATA_SCOPE_DEPT_SELF = 5;
+
 }

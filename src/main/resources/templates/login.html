@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/css/login/login.css" />
+    <link rel="stylesheet" href="/css/login/login.css"/>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -18,10 +18,11 @@
 
 </head>
 
-<body background="/images/background.svg">
+<body background="/images/background.jpg">
+<div class="login-wrapper">
     <form class="layui-form" action="javascript:void(0);">
         <div class="layui-form-item">
-            <img class="logo" src="/images/Logo.png" />
+            <img class="logo" src="/images/Logo.png"/>
             <div class="title">Super Hero</div>
             <div class="desc">
                 天行健，君子以自强不息
@@ -29,20 +30,20 @@
         </div>
 
         <div class="layui-form-item">
-            <input name="username" type="text" placeholder="请输入用户名" value="admin" hover class="layui-input"  />
+            <input name="username" type="text" placeholder="请输入用户名" value="admin" hover class="layui-input"/>
         </div>
         <div class="layui-form-item">
-            <input name="password" type="password" placeholder="请输入密码" value="admin" hover class="layui-input"  />
+            <input name="password" type="password" placeholder="请输入密码" value="admin" hover class="layui-input"/>
         </div>
         <div class="layui-form-item">
-            <input placeholder="请输入验证码" name="captcha" id="captcha" hover class="code layui-input layui-input-inline"  />
-            <img  onClick="this.src=this.src+'?'+Math.random();" id="img" class="captchaImage" width="90" height="40" src="/sys/getVerify">
+            <input placeholder="请输入验证码" name="captcha" id="captcha" hover class="code layui-input layui-input-inline"/>
+            <img onClick="this.src=this.src+'?'+Math.random();" id="img" class="captchaImage" width="90" height="40" src="/sys/getVerify">
         </div>
 
-<!--        -->
-<!--        <div class="layui-form-item">-->
-<!--            <input type="checkbox" name="remember-me" title="记住密码" lay-skin="primary">-->
-<!--        </div>-->
+        <!--        -->
+        <!--        <div class="layui-form-item">-->
+        <!--            <input type="checkbox" name="remember-me" title="记住密码" lay-skin="primary">-->
+        <!--        </div>-->
         <div class="layui-form-item">
             <button class="pear-btn pear-btn-success login" lay-submit lay-filter="login">
                 登 入
@@ -50,7 +51,7 @@
         </div>
 
     </form>
-
+</div>
 </body>
 
 <script src="/layui/layui.js"></script>
