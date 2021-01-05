@@ -1883,7 +1883,11 @@ a cite {
 }
 
 .layui-btn-checked {
-    background-color: #3C8DBC
+    background-color: #0abc7d
+}
+
+.layui-btn-dangerL {
+    background-color: #ed2f32
 }
 
 .layui-btn-disabled, .layui-btn-disabled:active, .layui-btn-disabled:hover {

@@ -71,10 +71,10 @@
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="add" shiro:hasPermission="sysJob:add">添加</button>
-        <button class="layui-btn layui-btn-sm" lay-event="batchDeleted" shiro:hasPermission="sysJob:delete">删除</button>
-        <button class="layui-btn layui-btn-sm" lay-event="pause" shiro:hasPermission="sysJob:pause">暂停</button>
-        <button class="layui-btn layui-btn-sm" lay-event="resume" shiro:hasPermission="sysJob:resume">恢复</button>
-        <button class="layui-btn layui-btn-sm" lay-event="run" shiro:hasPermission="sysJob:run">立即执行</button>
+        <button class="layui-btn layui-btn-dangerL layui-btn-sm" lay-event="batchDeleted" shiro:hasPermission="sysJob:delete">删除</button>
+        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="pause" shiro:hasPermission="sysJob:pause">暂停</button>
+        <button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="resume" shiro:hasPermission="sysJob:resume">恢复</button>
+        <button class="layui-btn layui-btn-checked layui-btn-sm" lay-event="run" shiro:hasPermission="sysJob:run">立即执行</button>
         <button class="layui-btn layui-btn-danger layui-btn-sm" style="float: right" lay-event="jobLog"
                 shiro:hasPermission="sysJob:list">任务日志
         </button>

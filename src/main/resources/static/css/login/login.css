@@ -1,16 +1,7 @@
-/*.login-wrapper{*/
-/*	margin: -350px auto 0;*/
-/*	position: absolute;*/
-/*	top: 50%;*/
-/*	left: 0;*/
-/*	right: 0;*/
-/*	width: 23%;*/
-/*}*/
 .layui-form {
 	width: 380px !important;
 	margin: auto !important;
-	margin-top: 160px !important;
-
+	margin-top: 6% !important;
 	padding: 25px 30px;
 	background-color: #fff;
 	box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.19);
