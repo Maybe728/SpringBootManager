@@ -3,7 +3,8 @@
     border-bottom:1px solid transparent;
     border-radius:2px 2px 0 0;
     font-size:14px;
-    background: #eeeeee
+    color: white;
+    background: #3c8dbc;
 }
 .panel{
     margin-bottom:20px;

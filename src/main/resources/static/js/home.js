@@ -33,7 +33,7 @@ var initBgColor = function () {
         '.layui-side.layui-bg-black,.layui-side.layui-bg-black>.layui-left-menu>ul {background-color:' + bgcolorData.menuLeft + '!important;}\n' +
         '.layui-left-menu .layui-nav .layui-nav-child a:hover:not(.layui-this) {background-color:' + bgcolorData.menuLeftHover + ';}\n' +
         '.layui-layout-admin .layui-nav-tree .layui-this, .layui-layout-admin .layui-nav-tree .layui-this>a, .layui-layout-admin .layui-nav-tree .layui-nav-child dd.layui-this, .layui-layout-admin .layui-nav-tree .layui-nav-child dd.layui-this a {\n' +
-        '    background-color: ' + bgcolorData.menuLeftThis + ' !important;\n' +
+        '    width:235px;background-color: ' + bgcolorData.menuLeftThis + ' !important;\n' +
         '}';
     $('#layuimini-bg-color').html(styleHtml);
 };
