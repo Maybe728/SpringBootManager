@@ -116,16 +116,16 @@
             ulHtml += '<dl class="layui-nav-child">';
             $.each(item, function (index, child) {
                 if (child.children != null && child.children.length > 0 && child.type == 1) {
-                    ulHtml += '<dd><a>' + child.title + '</a>';
+                    ulHtml += '<dd style="width: 255px"><a>' + child.title + '</a>';
                     ulHtml += getChild(child.children, "");
                 } else if (child.children != null && child.children.length > 0 && child.type != 1) {
                     ulHtml += '<a>' + child.title + '</a>';
                     ulHtml += getChild(child.children, "");
                 } else {
                     if (child.target === "_blank") {
-                        ulHtml += '<dd><a class="leftMenuNvaBar" href="' + child.url + '" target="_blank">';
+                        ulHtml += '<dd style="width: 255px"><a class="leftMenuNvaBar" href="' + child.url + '" target="_blank">';
                     } else {
-                        ulHtml += '<dd><a href="javascript:;" data-icon="' + child.icon + '" data-url="' + child.url + '" data-title="' + child.title + '" data-id="' + child.id + '" class="leftMenuNvaBar menuNvaBar">';
+                        ulHtml += '<dd style="width: 255px"><a href="javascript:;" data-icon="' + child.icon + '" data-url="' + child.url + '" data-title="' + child.title + '" data-id="' + child.id + '" class="leftMenuNvaBar menuNvaBar">';
                     }
                     ulHtml += '<cite>' + child.title + '</cite></a></dd>';
                 }
@@ -161,16 +161,16 @@
                             ulHtml += '<dl class="layui-nav-child">';
                             $.each(item.children, function (index, child) {
                                 if (child.children != null && child.children.length > 0 && child.type == 1) {
-                                    ulHtml += '<dd><a>' + child.title + '</a>';
+                                    ulHtml += '<dd style="width: 255px"><a>' + child.title + '</a>';
                                     ulHtml += getChild(child.children, "");
                                 } else if (child.children != null && child.children.length > 0 && child.type != 1) {
                                     ulHtml += '<a>' + child.title + '</a>';
                                     ulHtml += getChild(child.children, "");
                                 } else {
                                     if (child.target === "_blank") {
-                                        ulHtml += '<dd><a class="leftMenuNvaBar" href="' + child.url + '" target="_blank">';
+                                        ulHtml += '<dd style="width: 255px"><a class="leftMenuNvaBar" href="' + child.url + '" target="_blank">';
                                     } else {
-                                        ulHtml += '<dd><a href="javascript:;" data-icon="' + child.icon + '" data-url="' + child.url + '" data-title="' + child.title + '" data-id="' + child.id + '" class="leftMenuNvaBar menuNvaBar">';
+                                        ulHtml += '<dd style="width: 255px"><a href="javascript:;" data-icon="' + child.icon + '" data-url="' + child.url + '" data-title="' + child.title + '" data-id="' + child.id + '" class="leftMenuNvaBar menuNvaBar">';
                                     }
                                     if (!CoreUtil.isEmpty(child.icon)) {
                                         ulHtml += '<i class="layui-icon '+child.icon+'"></i>';

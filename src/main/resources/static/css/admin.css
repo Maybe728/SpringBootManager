@@ -1383,12 +1383,29 @@ body .layui-btn.layui-btn-normal {
 }
 
 body .layui-btn.layui-btn-warm {
-    background-color: #FFB800;
+    background-color: #e9a700;
 }
 
 body .layui-btn.layui-btn-danger {
-    background-color: #FF5722;
+    background-color: #ff0005;
 }
+
+body .layui-btn.layui-btn-checked {
+    background-color: #0abc7d
+}
+
+body .layui-btn.layui-btn-dangerL {
+    background-color: #ed5f0a
+}
+
+body .layui-btn.layui-btn-add {
+    background-color: #0050ff
+}
+
+body .layui-btn.layui-btn-edit {
+    background-color: #06b2db
+}
+
 
 .layui-btn-group > .layui-btn + .layui-btn {
     border-radius: 0;

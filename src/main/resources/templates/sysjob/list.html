@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/admin.css?v=318"/>
     <link rel="stylesheet" href="/css/custom.form.css">
 </head>
 <body>
@@ -70,18 +71,26 @@
 </div>
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add" shiro:hasPermission="sysJob:add">添加</button>
-        <button class="layui-btn layui-btn-dangerL layui-btn-sm" lay-event="batchDeleted" shiro:hasPermission="sysJob:delete">删除</button>
-        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="pause" shiro:hasPermission="sysJob:pause">暂停</button>
-        <button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="resume" shiro:hasPermission="sysJob:resume">恢复</button>
-        <button class="layui-btn layui-btn-checked layui-btn-sm" lay-event="run" shiro:hasPermission="sysJob:run">立即执行</button>
-        <button class="layui-btn layui-btn-danger layui-btn-sm" style="float: right" lay-event="jobLog"
+        <button class="layui-btn layui-btn-add layui-btn-sm" lay-event="add" shiro:hasPermission="sysJob:add">添加
+        </button>
+        <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="batchDeleted" shiro:hasPermission="sysJob:delete">
+            批量删除
+        </button>
+        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="pause" shiro:hasPermission="sysJob:pause">
+            暂停
+        </button>
+        <button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="resume" shiro:hasPermission="sysJob:resume">
+            恢复
+        </button>
+        <button class="layui-btn layui-btn-checked layui-btn-sm" lay-event="run" shiro:hasPermission="sysJob:run">立即执行
+        </button>
+        <button class="layui-btn layui-btn-dangerL layui-btn-sm" style="float: right" lay-event="jobLog"
                 shiro:hasPermission="sysJob:list">任务日志
         </button>
     </div>
 </script>
 <script type="text/html" id="tool">
-    <a class="layui-btn layui-btn-xs" lay-event="edit" shiro:hasPermission="sysJob:update">编辑</a>
+    <a class="layui-btn layui-btn-edit layui-btn-xs" lay-event="edit" shiro:hasPermission="sysJob:update">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" shiro:hasPermission="sysJob:delete">删除</a>
 </script>
 
@@ -235,7 +244,6 @@
                     window.parent.active.tabChange(tabId);
                     break;
             }
-            ;
         });
         //列操作
         table.on('tool(showTable)', function (obj) {
@@ -360,13 +368,13 @@
         $("#btn_cancel").click(function () {
             $(".table_div").show();
             $(".operation").hide();
-            $(".layui-cron").hide()
+            $(".layui-cron").hide();
             return false;
         });
 
         //监听保存
         form.on('submit(submit)', function (data) {
-            $(".layui-cron").hide()
+            $(".layui-cron").hide();
             if (data.field.id === undefined || data.field.id === null || data.field.id === "") {
                 CoreUtil.sendPost("/sysJob/add", data.field, function (res) {
                     $(".table_div").show();
@@ -396,5 +404,5 @@
                 curr: 1 //重新从第 1 页开始
             }
         });
-    };
+    }
 </script>
