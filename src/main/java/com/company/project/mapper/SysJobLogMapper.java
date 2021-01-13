@@ -1,7 +1,7 @@
 package com.company.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.company.project.entity.SysJobLogEntity;
+import com.company.project.entity.system.SysJobLogEntity;
 
 /**
  * 定时任务日志、 Mapper

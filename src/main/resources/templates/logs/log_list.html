@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/layui/css/layui.css" media="all">
 </head>
 <body>
+
 <div id="searchParam">
     <div class="layui-form-item" shiro:hasPermission="sys:log:list">
         <div class="layui-input-inline">
@@ -22,11 +23,14 @@
             <button class="layui-btn" onclick="search()" id="search">查询</button>
         </div>
     </div>
-
 </div>
+
 <table class="layui-hide" id="log_table" lay-filter="log_table"></table>
+
 <div id="laypage"></div>
+
 </body>
+
 <script type="text/html" id="toolbar">
     <div class="layui-btn-group">
         <button shiro:hasPermission="sys:log:deleted" type="button" class="layui-btn layui-btn-sm" lay-event="getCheckData">
@@ -34,6 +38,7 @@
         </button>
     </div>
 </script>
+
 <script type="text/html" id="tool">
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" shiro:hasPermission="sys:log:deleted">删除</a>
 </script>
@@ -46,7 +51,7 @@
     var tokenQuery = token.replace("#", "%23");
     var tableIns1;
     var table = layui.table;
-    var laypage = layui.laypage
+    var laypage = layui.laypage;
     var form = layui.form;
     var layer = layui.layer;
     var $ = jQuery = layui.jquery;

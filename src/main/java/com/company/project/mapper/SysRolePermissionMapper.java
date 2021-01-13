@@ -1,7 +1,7 @@
 package com.company.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.company.project.entity.SysRolePermission;
+import com.company.project.entity.system.SysRolePermission;
 
 /**
  * 角色权限 Mapper

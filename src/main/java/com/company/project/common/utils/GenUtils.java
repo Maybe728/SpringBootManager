@@ -1,8 +1,8 @@
 package com.company.project.common.utils;
 
 import com.company.project.common.exception.BusinessException;
-import com.company.project.entity.ColumnEntity;
-import com.company.project.entity.TableEntity;
+import com.company.project.entity.system.ColumnEntity;
+import com.company.project.entity.system.TableEntity;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -112,7 +112,10 @@ public class GenUtils {
         map.put("classNameLower", tableEntity.getClassNameLower());
         map.put("hasBigDecimal", hasBigDecimal);
         map.put("mainPath", mainPath);
-        map.put("package", config.getString("package"));
+        map.put("controllerPackage", config.getString("controllerPackage"));
+        map.put("entitypackage", config.getString("entitypackage"));
+        map.put("servicepackage", config.getString("servicepackage"));
+        map.put("mapperpackage", config.getString("mapperpackage"));
         map.put("author", config.getString("author"));
         map.put("email", config.getString("email"));
         map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
@@ -134,7 +137,7 @@ public class GenUtils {
 
             try {
                 //添加到zip
-                zip.putNextEntry(new ZipEntry(Objects.requireNonNull(getFileName(template, tableEntity.getClassName(), config.getString("package")))));
+                zip.putNextEntry(new ZipEntry(Objects.requireNonNull(getFileName(template, tableEntity.getClassName(), config.getString("controllerPackage"),config.getString("entitypackage"),config.getString("servicepackage"),config.getString("mapperpackage")))));
                 IOUtils.write(sw.toString(), zip, "UTF-8");
                 IOUtils.closeQuietly(sw);
                 zip.closeEntry();
@@ -188,30 +191,45 @@ public class GenUtils {
     /**
      * 获取文件名
      */
-    public static String getFileName(String template, String className, String packageName) {
-        String packagePath = "main" + File.separator + "java" + File.separator;
-        if (StringUtils.isNotBlank(packageName)) {
-            packagePath += packageName.replace(".", File.separator) + File.separator;
+    public static String getFileName(String template, String className, String controllerPackageName, String entityPackageName, String servicePackageName, String mapperPackageName) {
+        String mapperPackagePath = "main" + File.separator + "java" + File.separator;
+        String controllerPackagePath = "main" + File.separator + "java" + File.separator;
+        String entityPackagePath = "main" + File.separator + "java" + File.separator;
+        String servicePackagePath = "main" + File.separator + "java" + File.separator;
+        if (StringUtils.isNotBlank(controllerPackageName)) {
+            controllerPackagePath += controllerPackageName.replace(".", File.separator) + File.separator;
+        }
+
+        if (StringUtils.isNotBlank(entityPackageName)) {
+            entityPackagePath += entityPackageName.replace(".", File.separator) + File.separator;
+        }
+
+        if (StringUtils.isNotBlank(servicePackageName)) {
+            servicePackagePath += servicePackageName.replace(".", File.separator) + File.separator;
+        }
+
+        if (StringUtils.isNotBlank(mapperPackageName)) {
+            mapperPackagePath += mapperPackageName.replace(".", File.separator) + File.separator;
         }
 
         if (template.contains("Entity.java.vm")) {
-            return packagePath + "entity" + File.separator + className + "Entity.java";
+            return entityPackagePath + File.separator + className + "Entity.java";
         }
 
         if (template.contains("Dao.java.vm")) {
-            return packagePath + "mapper" + File.separator + className + "Mapper.java";
+            return mapperPackagePath + File.separator + className + "Mapper.java";
         }
 
         if (template.contains("Service.java.vm")) {
-            return packagePath + "service" + File.separator + className + "Service.java";
+            return servicePackagePath + File.separator + className + "Service.java";
         }
 
         if (template.contains("ServiceImpl.java.vm")) {
-            return packagePath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
+            return servicePackagePath + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
         }
 
         if (template.contains("Controller.java.vm")) {
-            return packagePath + "controller" + File.separator + className + "Controller.java";
+            return controllerPackagePath + File.separator + className + "Controller.java";
         }
 
         if (template.contains("Dao.xml.vm")) {

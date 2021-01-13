@@ -3,7 +3,7 @@
 <mapper namespace="com.company.project.mapper.SysGeneratorSqlServerMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.company.project.entity.SysGenerator">
+    <resultMap id="BaseResultMap" type="com.company.project.entity.system.SysGenerator">
         <id column="id" property="id"/>
         <result column="table_name" property="tableName"/>
         <result column="menu_name" property="menuName"/>
@@ -16,7 +16,7 @@
         id, table_name, menu_name, pid, gen_time
     </sql>
     <!-- 获取列表 -->
-    <select id="selectAllTables" resultType="com.company.project.entity.SysGenerator">
+    <select id="selectAllTables" resultType="com.company.project.entity.system.SysGenerator">
 
 		select * from
 		(

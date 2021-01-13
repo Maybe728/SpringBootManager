@@ -1,7 +1,7 @@
 package com.company.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.company.project.entity.SysLog;
+import com.company.project.entity.system.SysLog;
 
 /**
  * 操作日志 Mapper

@@ -1,15 +1,14 @@
-package ${package}.entity;
+package ${entitypackage};
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.company.project.entity.BaseEntity;
+import com.company.project.entity.system.BaseEntity;
 
 
 #if(${hasBigDecimal})
 #end
 import java.io.Serializable;
-import java.util.Date;
 
 import lombok.Data;
 

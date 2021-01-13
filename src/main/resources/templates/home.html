@@ -23,6 +23,7 @@
         .closeBox .layui-nav-item > a,.closeBox .layui-nav-item > a:hover {color:#000;}
         .closeBox .layui-nav-child {top:40px;}
         .leftMenuNvaBar {padding-left: 48px !important;}
+        .item-icon-color {color: #29acf9}
     </style>
     <style id="layuimini-bg-color">
     </style>
@@ -153,7 +154,7 @@
                         }
                         ulHtml += '<a href="javascript:;">';
                         if (!CoreUtil.isEmpty(item.icon)) {
-                            ulHtml += '<i class="layui-icon '+item.icon+'"></i>';
+                            ulHtml += '<i class="item-icon-color layui-icon '+item.icon+'"></i>';
                         }
                         ulHtml += '<cite> ' + item.title + '</cite>';
                         ulHtml += '</a>';

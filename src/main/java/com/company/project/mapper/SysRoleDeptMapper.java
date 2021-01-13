@@ -1,8 +1,7 @@
 package com.company.project.mapper;
 
-import com.company.project.entity.SysRoleDeptEntity;
+import com.company.project.entity.system.SysRoleDeptEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 角色部门

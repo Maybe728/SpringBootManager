@@ -1,7 +1,7 @@
 package com.company.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.company.project.entity.SysDictDetailEntity;
+import com.company.project.entity.system.SysDictDetailEntity;
 
 /**
  * 字典详情 Mapper

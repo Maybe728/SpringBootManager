@@ -1,4 +1,4 @@
-package ${package}.controller;
+package ${controllerPackage};
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -14,8 +14,8 @@ import io.swagger.annotations.ApiParam;
 import java.util.List;
 import com.company.project.common.utils.DataResult;
 
-import ${package}.entity.${className}Entity;
-import ${package}.service.${className}Service;
+import ${entitypackage}.${className}Entity;
+import ${servicepackage}.${className}Service;
 
 
 

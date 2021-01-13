@@ -1,7 +1,7 @@
 package com.company.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.company.project.entity.SysDept;
+import com.company.project.entity.system.SysDept;
 
 /**
  * 部门 Mapper

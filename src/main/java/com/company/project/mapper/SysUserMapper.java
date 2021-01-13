@@ -1,7 +1,7 @@
 package com.company.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.company.project.entity.SysUser;
+import com.company.project.entity.system.SysUser;
 
 /**
  * 用户 Mapper

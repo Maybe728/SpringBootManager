@@ -3,7 +3,7 @@
 <mapper namespace="com.company.project.mapper.SysGeneratorOracleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.company.project.entity.SysGenerator">
+    <resultMap id="BaseResultMap" type="com.company.project.entity.system.SysGenerator">
         <id column="id" property="id" />
         <result column="table_name" property="tableName" />
         <result column="menu_name" property="menuName" />

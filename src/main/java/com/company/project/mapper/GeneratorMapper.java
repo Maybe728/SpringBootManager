@@ -3,7 +3,7 @@ package com.company.project.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.company.project.entity.SysGenerator;
+import com.company.project.entity.system.SysGenerator;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
