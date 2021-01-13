@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.company.project.mapper.order.OrderInfoMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.company.project.entity.order.OrderInfoEntity" id="orderInfoMap">
+        <result property="id" column="id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="materialNo" column="material_no"/>
+        <result property="groupsNumber" column="groups_number"/>
+        <result property="unitNumber" column="unit_number"/>
+        <result property="receiptAddress" column="receipt_address"/>
+        <result property="detailedAddress" column="detailed_address"/>
+        <result property="productType" column="product_type"/>
+        <result property="salesModel" column="sales_model"/>
+        <result property="cartonDescription" column="carton_description"/>
+        <result property="customerType" column="customer_type"/>
+        <result property="marketingChannel" column="marketing_channel"/>
+        <result property="deliveryDate" column="delivery_date"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+
+</mapper>
