@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -25,7 +26,7 @@ import com.company.project.service.order.OrderInfoService;
  * @author SuperHero
  * @date 2021-01-13 19:03:34
  */
-@Controller
+@RestController
 @RequestMapping("/")
 public class OrderInfoController {
     @Autowired
@@ -38,12 +39,11 @@ public class OrderInfoController {
     @GetMapping("/index/orderInfo")
     public String orderInfo() {
         return "orderinfo/list";
-        }
+    }
 
     @ApiOperation(value = "新增")
     @PostMapping("orderInfo/add")
     @RequiresPermissions("orderInfo:add")
-    @ResponseBody
     public DataResult add(@RequestBody OrderInfoEntity orderInfo){
         orderInfoService.save(orderInfo);
         return DataResult.success();
@@ -52,7 +52,6 @@ public class OrderInfoController {
     @ApiOperation(value = "删除")
     @DeleteMapping("orderInfo/delete")
     @RequiresPermissions("orderInfo:delete")
-    @ResponseBody
     public DataResult delete(@RequestBody @ApiParam(value = "id集合") List<String> ids){
         orderInfoService.removeByIds(ids);
         return DataResult.success();
@@ -61,7 +60,6 @@ public class OrderInfoController {
     @ApiOperation(value = "更新")
     @PutMapping("orderInfo/update")
     @RequiresPermissions("orderInfo:update")
-    @ResponseBody
     public DataResult update(@RequestBody OrderInfoEntity orderInfo){
         orderInfoService.updateById(orderInfo);
         return DataResult.success();
@@ -70,12 +68,16 @@ public class OrderInfoController {
     @ApiOperation(value = "查询分页数据")
     @PostMapping("orderInfo/listByPage")
     @RequiresPermissions("orderInfo:list")
-    @ResponseBody
     public DataResult findListByPage(@RequestBody OrderInfoEntity orderInfo){
         Page page = new Page(orderInfo.getPage(), orderInfo.getLimit());
         LambdaQueryWrapper<OrderInfoEntity> queryWrapper = Wrappers.lambdaQuery();
-        //查询条件示例
-        //queryWrapper.eq(OrderInfoEntity::getId, orderInfo.getId());
+        //查询条件
+        if (!StringUtils.isEmpty (orderInfo.getOrderNo ())) {
+            queryWrapper.like (OrderInfoEntity::getOrderNo, orderInfo.getOrderNo ());
+        }
+        if (!StringUtils.isEmpty (orderInfo.getSalesModel ())){
+            queryWrapper.eq (OrderInfoEntity::getSalesModel,orderInfo.getSalesModel ());
+        }
         IPage<OrderInfoEntity> iPage = orderInfoService.page(page, queryWrapper);
         return DataResult.success(iPage);
     }

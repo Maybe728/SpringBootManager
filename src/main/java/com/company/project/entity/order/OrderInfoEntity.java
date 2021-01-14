@@ -1,5 +1,6 @@
 package com.company.project.entity.order;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -27,7 +28,7 @@ public class OrderInfoEntity extends BaseEntity implements Serializable {
 	 *
 	 */
 	@TableId("id")
-	private Long id;
+	private String id;
 
 	/**
 	 * 订单编号
@@ -104,31 +105,31 @@ public class OrderInfoEntity extends BaseEntity implements Serializable {
 	/**
 	 * 创建时间
 	 */
-	@TableField("create_time")
+	@TableField(value = "create_time", fill = FieldFill.INSERT)
 	private Date createTime;
 
 	/**
 	 * 更新时间
 	 */
-	@TableField("update_time")
+	@TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 
 	/**
 	 * 创建人
 	 */
-	@TableField("create_by")
-	private String createBy;
+	@TableField(value = "create_id", fill = FieldFill.INSERT)
+	private String createId;
 
 	/**
 	 * 修改人
 	 */
-	@TableField("update_by")
-	private String updateBy;
+	@TableField(value = "update_id", fill = FieldFill.INSERT_UPDATE)
+	private String updateId;
 
 	/**
 	 * 是否删除(1未删除；0已删除)
 	 */
-	@TableField("deleted")
+	@TableField(fill = FieldFill.INSERT)
 	private Integer deleted;
 
 

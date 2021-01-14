@@ -79,18 +79,18 @@
 <script src="/js/core.util.js"></script>
 <script>
     //文章类型字典数据
-    var datas = "[[${@sysDictService.getType('content_type')}]]".replace(/&quot;/g,"\"");
+    let datas = "[[${@sysDictService.getType('content_type')}]]".replace(/&quot;/g,"\"");
     //获取token
-    var token = CoreUtil.getData("access_token");
+    let token = CoreUtil.getData("access_token");
     //地址栏转义token中的#号
-    var tokenQuery = token.replace("#", "%23");
-    var tableIns1;
-    var table = layui.table;
-    var form = layui.form;
-    var layer = layui.layer;
-    var $ = jQuery = layui.jquery;
-    var laydate = layui.laydate;
-    var layedit = layui.layedit;
+    let tokenQuery = token.replace("#", "%23");
+    let tableIns1;
+    let table = layui.table;
+    let form = layui.form;
+    let layer = layui.layer;
+    let $ = jQuery = layui.jquery;
+    let laydate = layui.laydate;
+    let layedit = layui.layedit;
 
     layui.use(['table', 'layer', 'laydate', 'layedit'], function () {
         //图片

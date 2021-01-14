@@ -20,8 +20,8 @@
         <result property="deliveryDate" column="delivery_date"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
-        <result property="createBy" column="create_by"/>
-        <result property="updateBy" column="update_by"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateId" column="update_id"/>
         <result property="deleted" column="deleted"/>
     </resultMap>
 
