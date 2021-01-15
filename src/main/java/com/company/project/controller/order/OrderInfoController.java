@@ -26,7 +26,7 @@ import com.company.project.service.order.OrderInfoService;
  * @author SuperHero
  * @date 2021-01-13 19:03:34
  */
-@RestController
+@Controller
 @RequestMapping("/")
 public class OrderInfoController {
     @Autowired
@@ -44,6 +44,7 @@ public class OrderInfoController {
     @ApiOperation(value = "新增")
     @PostMapping("orderInfo/add")
     @RequiresPermissions("orderInfo:add")
+    @ResponseBody
     public DataResult add(@RequestBody OrderInfoEntity orderInfo){
         orderInfoService.save(orderInfo);
         return DataResult.success();
@@ -52,6 +53,7 @@ public class OrderInfoController {
     @ApiOperation(value = "删除")
     @DeleteMapping("orderInfo/delete")
     @RequiresPermissions("orderInfo:delete")
+    @ResponseBody
     public DataResult delete(@RequestBody @ApiParam(value = "id集合") List<String> ids){
         orderInfoService.removeByIds(ids);
         return DataResult.success();
@@ -60,6 +62,7 @@ public class OrderInfoController {
     @ApiOperation(value = "更新")
     @PutMapping("orderInfo/update")
     @RequiresPermissions("orderInfo:update")
+    @ResponseBody
     public DataResult update(@RequestBody OrderInfoEntity orderInfo){
         orderInfoService.updateById(orderInfo);
         return DataResult.success();
@@ -68,6 +71,7 @@ public class OrderInfoController {
     @ApiOperation(value = "查询分页数据")
     @PostMapping("orderInfo/listByPage")
     @RequiresPermissions("orderInfo:list")
+    @ResponseBody
     public DataResult findListByPage(@RequestBody OrderInfoEntity orderInfo){
         Page page = new Page(orderInfo.getPage(), orderInfo.getLimit());
         LambdaQueryWrapper<OrderInfoEntity> queryWrapper = Wrappers.lambdaQuery();

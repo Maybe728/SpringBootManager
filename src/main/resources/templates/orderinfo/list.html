@@ -41,7 +41,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">收货地址</label>
                 <div class="layui-input-block">
-                    <input type="receiptAddress" name="receiptAddress" placeholder="请输入收获地址" autocomplete="off" class="layui-input">
+                    <input type="receiptAddress"  readonly name="receiptAddress" placeholder="请输入收获地址" autocomplete="off" class="layui-input">
                     <div id="locationBtn" class="layui-icon layui-icon-location map-location"></div>
 
                     <!--隐藏两个控件存放获取的经纬度-->
@@ -213,6 +213,7 @@
         //
         let locationData = {lng:116.404,lat:39.915};
 
+        let address = $("#receiptAddress").val()?$("#receiptAddress").val():'浙江省湖州市长兴县';
 
         location.render("#locationBtn",{
             type:1,
@@ -222,12 +223,13 @@
             zoom: 15,
             title: '区域定位',
             init: function(){
-                return {longitude: $("#longitude").val()?$("#longitude").val():locationData.lng,latitude: $("#latitude").val()?$("#latitude").val():locationData.lat};
+                return {address:address,longitude: $("#longitude").val()?$("#longitude").val():locationData.lng,latitude: $("#latitude").val()?$("#latitude").val():locationData.lat};
             },
             success: function (data) {
                 console.log(data);
                 $("#longitude").val(data.lng);
                 $("#latitude").val(data.lat);
+                $("#receiptAddress").val(data.address);
             }
         });
 

@@ -8,32 +8,28 @@ layui.define(['layer', 'locationX'], function (exports) {
 	var tpl0 = '<div class="cur-load0"></div>\n' +
             '<div class="cur-load1"></div>\n' +
             '<div class="ew-map-select-tool" style="position: relative;">\n' +
-            '    经度：<input id="lng" class="layui-input  inline-block" style="width: 190px;" autocomplete="off"/>\n' +
-            '    &nbsp;&nbsp;&nbsp;纬度：<input id="lat" class="layui-input  inline-block" style="width: 190px;" autocomplete="off"/>\n' +
+            '    已选地址：<input id="site" class="layui-input  inline-block" style="width: 250px;" autocomplete="off"/>\n' +
+            '    &nbsp;&nbsp;&nbsp;经度：<input id="lng" class="layui-input  inline-block" style="width: 100px;" autocomplete="off"/>\n' +
+            '    &nbsp;&nbsp;&nbsp;纬度：<input id="lat" class="layui-input  inline-block" style="width: 100px;" autocomplete="off"/>\n' +
             '    <button id="ew-map-select-btn-ok" class="layui-btn icon-btn pull-right" type="button"><i\n' +
             '            class="layui-icon">&#xe605;</i>确定\n' +
             '    </button>\n' +
             '</div>\n' +
-            '<div id="map" style="width: 100%;height: calc(100% - 48px);"></div><div id=\'result\'>\n' +
-            '        点击展示详细的地址：\n' +
-            '        <div id=\'result_l\'></div>\n' +
-            '    </div>';
+            '<div id="map" style="width: 100%;height: calc(100% - 48px);"></div>';
 	
 	var tpl1 ='<div class="cur-load0"></div>\n' +
             '<div class="cur-load1"></div>\n' +
             '<div class="ew-map-select-tool" style="position: relative;">\n' +
             '    搜索：<input id="ew-map-select-input-search" class="layui-input icon-search inline-block" style="width: 190px;" placeholder="输入关键字搜索" autocomplete="off" />\n' +
             '    <div id="ew-map-select-tips" class="ew-map-select-search-list layui-hide" style="left: 0px;width: 248px;"></div>\n' +
-            '    &nbsp;&nbsp;经度：<input id="lng" class="layui-input  inline-block" style="width: 190px;" autocomplete="off" />\n' +
-            '    &nbsp;&nbsp;&nbsp;纬度：<input id="lat" class="layui-input  inline-block" style="width: 190px;" autocomplete="off" />\n' +
+            '    &nbsp;&nbsp;已选地址：<input id="site" class="layui-input  inline-block" style="width: 250px;" autocomplete="off"/>\n' +
+            '    &nbsp;&nbsp;经度：<input id="lng" class="layui-input  inline-block" style="width: 100px;" autocomplete="off" />\n' +
+            '    &nbsp;&nbsp;纬度：<input id="lat" class="layui-input  inline-block" style="width: 100px;" autocomplete="off" />\n' +
             '    <button id="ew-map-select-btn-ok" class="layui-btn icon-btn pull-right" type="button"><i class="layui-icon">&#xe605;</i>确定</button>\n' +
             '</div>\n' +
             '<div class="map-select">\n' +
             '\n' +
-            '    <div id="map" style="width: 600px;height: 505px;float: right;"></div>    <div id=\'result\'>\n' +
-            '        点击展示详细的地址：\n' +
-            '        <div id=\'result_l\'></div>\n' +
-            '    </div>\n' +
+            '    <div id="map" style="width: 800px;height: 505px;float: right;"></div>\n' +
             '    <div id="ew-map-select-poi" class="layui-col-sm5 ew-map-select-search-list ew-map-select-poi">\n' +
             '    </div>\n' +
             '\n' +
@@ -144,8 +140,8 @@ layui.define(['layer', 'locationX'], function (exports) {
             map.centerAndZoom(point, o.config.zoom);
             map.setDefaultCursor("url('" + layui.cache.base + "location/img/location.cur') 17 35,auto");   //设置地图默认的鼠标指针样式
             var marker = new BMap.Marker(map.getCenter());  // 创建标注
+            var geoc = new BMap.Geocoder();
             map.addOverlay(marker);               // 将标注添加到地图中
-            var geoc = new BMapGL.Geocoder();
             map.addEventListener("click", function (e) {
                 var tbd = o.transformCoordinate(e.point.lng, e.point.lat);
                 //显示经纬度
@@ -158,21 +154,28 @@ layui.define(['layer', 'locationX'], function (exports) {
                 marker = new BMap.Marker(point);
                 map.addOverlay(marker);
 
-                geoc.getLocation(pt, function(rs) {
+                geoc.getLocation(pt, function(rs){
+                    //addressComponents对象可以获取到详细的地址信息
                     var addComp = rs.addressComponents;
-                    $('#result_l').text(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+                    var site = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                    //将对应的HTML元素设置值
+                    $("#site").val(site);
+                    $("#longitude").val(pt.lng);
+                    $("#latitude").val(pt.lat);
                 });
+
                 if (o.config.type==1){
                     searchNearBy(e.point.lng, e.point.lat);
                 }
             });
 
             // 标记中心点
-            var markCenter = function (lng, lat){
+            var markCenter = function (lng, lat,address){
                 var tbd = o.transformCoordinate(lng, lat);
                 //显示经纬度
                 $("#lng").val(tbd.lng);
                 $("#lat").val(tbd.lat);
+                $("#site").val(address);
                 o.lng = tbd.lng;
                 o.lat = tbd.lat;
                 var point = new BMap.Point(lng, lat);
@@ -182,7 +185,6 @@ layui.define(['layer', 'locationX'], function (exports) {
                 if (o.config.type==1){
                     searchNearBy(lng, lat);
                 }
-
             }
 
             // 搜索附近方法
@@ -194,7 +196,7 @@ layui.define(['layer', 'locationX'], function (exports) {
                         var htmlList = '';
                         $.each(result,function (i,val){
                             $.each(val.Hr,function (i,ad){
-                                htmlList += '<div data-lng="' + ad.point.lng + '" data-lat="' + ad.point.lat + '" class="ew-map-select-search-list-item">';
+                                htmlList += '<div data-lng="' + ad.point.lng + '" data-lat="' + ad.point.lat + '"  data-address="' + ad.address + '" class="ew-map-select-search-list-item">';
                                 htmlList += '     <div class="ew-map-select-search-list-item-title">' + ad.title + '</div>';
                                 htmlList += '     <div class="ew-map-select-search-list-item-address">' + ad.address + '</div>';
                                 htmlList += '     <div class="ew-map-select-search-list-item-icon-ok layui-hide"><i class="layui-icon layui-icon-ok-circle"></i></div>';
@@ -205,14 +207,14 @@ layui.define(['layer', 'locationX'], function (exports) {
                     }
                 });
                 localSearch.searchNearby([o.config.searchKey,'镇','街道','店'],point,1000);
-            }
+            };
 
             // 初始化搜索
             if (o.config.type==1){
                 o.initBaiduSearch(map,searchNearBy,markCenter);
             }
 
-        }
+        };
 
         this.initBaiduSearch = function (map,searchNearBy,markCenter){
             var o = this;
@@ -230,12 +232,13 @@ layui.define(['layer', 'locationX'], function (exports) {
                 });
                 var lng = $(this).data('lng');
                 var lat = $(this).data('lat');
+                var address = $(this).data('address');
 
                 //
                 var point = new BMap.Point(lng, lat);
                 map.centerAndZoom(point, map.getZoom());
 
-                markCenter(lng, lat);
+                markCenter(lng, lat,address);
             });
 
             // 搜索提示
@@ -287,12 +290,13 @@ layui.define(['layer', 'locationX'], function (exports) {
                 $('#ew-map-select-tips').addClass('layui-hide');
                 var lng = $(this).data('lng');
                 var lat = $(this).data('lat');
+                var address = $(this).data('address');
                 var point = new BMap.Point(lng, lat);
                 map.centerAndZoom(point, map.getZoom());
-                markCenter(lng, lat);
+                markCenter(lng, lat,address);
             });
-        }
-
+        };
+/**------------------------------------------------------------------BAI DU MAP END--------------------------------------------**/
         this.openTiandiMap = function () {
             var o = this;
             var map = new T.Map("map"); // 创建地图实例
@@ -474,7 +478,7 @@ layui.define(['layer', 'locationX'], function (exports) {
                 markCenter(lng, lat);
             });
         }
-
+/**------------------------------------------------------------------TIAN DI MAP END--------------------------------------------**/
         this.openGaodeMap = function () {
             var o = this;
             // 创建地图实例
@@ -646,20 +650,21 @@ layui.define(['layer', 'locationX'], function (exports) {
                 markCenter({lng: lng, lat: lat});
             });
         }
-
+/**------------------------------------------------------------------GAO DE MAP END--------------------------------------------**/
         this.openMap = function () {
             var o = this;
 
             if (o.config.apiType == "baiduMap") {
                 var index = layer.open({
                     type: 1,
-                    area: ["850px", "600px"],
+                    area: ["1000px", "600px"],
                     title: o.config.title,
                     content: o.config.type == 0 ? tpl0:tpl1,
                     success: function () {
                         // 回显数据 中心标记经纬度
                         $("#lng").val(o.lng);
                         $("#lat").val(o.lat);
+                        $("#site").val(o.address);
                         // 渲染地图
                         if (undefined === window.BMap) {
                             $.getScript("http://api.map.baidu.com/getscript?v=2.0&ak=tCNPmUfNmy4nTR3VYW71a6IgyWMaOSUb&services=&t=20200824135534", function () {
@@ -704,13 +709,14 @@ layui.define(['layer', 'locationX'], function (exports) {
             } else if (o.config.apiType == "gaodeMap") {
                 var index = layer.open({
                     type: 1,
-                    area: ["850px", "600px"],
+                    area: ["950px", "600px"],
                     title: o.config.title,
                     content: o.config.type == 0 ? tpl0:tpl1,
                     success: function () {
                         // 回显数据 中心标记经纬度
                         $("#lng").val(o.lng);
                         $("#lat").val(o.lat);
+                        $("#site").val(o.address);
                         // 渲染地图
                         if (undefined === window.AMap) {
                             $.getScript("https://webapi.amap.com/maps?v=1.4.14&key=006d995d433058322319fa797f2876f5", function () {
@@ -736,14 +742,13 @@ layui.define(['layer', 'locationX'], function (exports) {
     layui.link(layui.cache.base + 'location/location.css');  // 加载css
 
     /*导出模块,用一个location对象来管理obj，不需要外部new obj*/
-    var location = function () {
-    }
+    var location = function () {};
     location.prototype.render = function (elem, config) {
         $(elem).on("click", function () {
             var _this = new obj(config);
             _this.openMap();
         })
-    }
+    };
     var locationObj = new location();
     exports(MOD_NAME, locationObj);
-})
+});
