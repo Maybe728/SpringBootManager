@@ -17,7 +17,7 @@ import java.net.InetAddress;
 
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
 @ImportResource ("classpath:ureport-console-context.xml") // 加载ureport对应的xml配置文件
-@MapperScan("com.company.project.mapper")
+@MapperScan(basePackages="com.company.project.mapper")
 @Slf4j
 public class CompanyProjectApplication {
 

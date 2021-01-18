@@ -5,7 +5,7 @@ import com.company.project.common.aop.annotation.LogAnnotation;
 import com.company.project.common.utils.HttpContextUtils;
 import com.company.project.common.utils.IPUtils;
 import com.company.project.entity.system.SysLog;
-import com.company.project.mapper.SysLogMapper;
+import com.company.project.mapper.system.SysLogMapper;
 import com.company.project.service.system.HttpSessionService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

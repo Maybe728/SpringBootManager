@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.company.project.common.utils.GenUtils;
 import com.company.project.entity.system.SysGenerator;
-import com.company.project.mapper.GeneratorMapper;
+import com.company.project.mapper.system.GeneratorMapper;
 import com.company.project.service.system.ISysGeneratorService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;

@@ -1,4 +1,4 @@
-package com.company.project.mapper;
+package com.company.project.mapper.system;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

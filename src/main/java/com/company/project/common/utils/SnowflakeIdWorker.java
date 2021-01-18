@@ -12,6 +12,16 @@ package com.company.project.common.utils;
  * 加起来刚好64位，为一个Long型。<br>
  * SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高，经测试，SnowFlake每秒能够产生26万ID左右。
  */
+
+/**
+ * snowflake是Twitter开源的分布式ID生成算法，结果是一个long型的ID。
+ * 其核心思想是：
+ * 使用41bit作为毫秒数，
+ * 10bit作为机器的ID（5个bit是数据中心，5个bit的机器ID），
+ * 12bit作为毫秒内的流水号（意味着每个节点在每毫秒可以产生 4096 个 ID），
+ * 最后还有一个符号位，永远是0。
+ * 可以保证几乎全球唯一！
+ **/
 public class SnowflakeIdWorker {
 
     // ==============================Fields===========================================

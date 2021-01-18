@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.company.project.entity.system.SysUserRole;
-import com.company.project.mapper.SysUserRoleMapper;
+import com.company.project.mapper.system.SysUserRoleMapper;
 import com.company.project.service.system.UserRoleService;
 import com.company.project.vo.system.req.UserRoleOperationReqVO;
 import org.springframework.stereotype.Service;

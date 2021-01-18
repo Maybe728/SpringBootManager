@@ -1,4 +1,4 @@
-package com.company.project.mapper;
+package com.company.project.mapper.system;
 
 import com.company.project.entity.system.SysRoleDeptEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

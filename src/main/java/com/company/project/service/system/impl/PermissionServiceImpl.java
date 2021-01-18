@@ -7,7 +7,7 @@ import com.company.project.common.exception.BusinessException;
 import com.company.project.common.exception.code.BaseResponseCode;
 import com.company.project.entity.system.SysPermission;
 import com.company.project.entity.system.SysRolePermission;
-import com.company.project.mapper.SysPermissionMapper;
+import com.company.project.mapper.system.SysPermissionMapper;
 import com.company.project.service.system.HttpSessionService;
 import com.company.project.service.system.PermissionService;
 import com.company.project.service.system.RolePermissionService;

@@ -73,6 +73,9 @@ public class OrderInfoController {
     @RequiresPermissions("orderInfo:list")
     @ResponseBody
     public DataResult findListByPage(@RequestBody OrderInfoEntity orderInfo){
+
+        System.out.println (orderInfoService.queryAllOrderInfo ());
+
         Page page = new Page(orderInfo.getPage(), orderInfo.getLimit());
         LambdaQueryWrapper<OrderInfoEntity> queryWrapper = Wrappers.lambdaQuery();
         //查询条件

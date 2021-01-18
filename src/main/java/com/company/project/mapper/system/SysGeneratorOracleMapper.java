@@ -1,4 +1,4 @@
-package com.company.project.mapper;
+package com.company.project.mapper.system;
 
 /**
  * 代码生成oracle Mapper

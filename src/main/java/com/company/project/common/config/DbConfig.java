@@ -2,10 +2,10 @@ package com.company.project.common.config;
 
 import com.company.project.common.exception.BusinessException;
 import com.company.project.common.utils.Constant;
-import com.company.project.mapper.GeneratorMapper;
-import com.company.project.mapper.SysGeneratorMysqlMapper;
-import com.company.project.mapper.SysGeneratorOracleMapper;
-import com.company.project.mapper.SysGeneratorSqlServerMapper;
+import com.company.project.mapper.system.GeneratorMapper;
+import com.company.project.mapper.system.SysGeneratorMysqlMapper;
+import com.company.project.mapper.system.SysGeneratorOracleMapper;
+import com.company.project.mapper.system.SysGeneratorSqlServerMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

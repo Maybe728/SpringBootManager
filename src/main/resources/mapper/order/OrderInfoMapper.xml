@@ -25,5 +25,8 @@
         <result property="deleted" column="deleted"/>
     </resultMap>
 
+    <select id="queryAllOrderInfo" resultType="com.company.project.entity.order.OrderInfoEntity">
+		select * from cw_order_info
+	</select>
 
 </mapper>

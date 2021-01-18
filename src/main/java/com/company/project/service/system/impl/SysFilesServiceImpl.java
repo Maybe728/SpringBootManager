@@ -6,7 +6,7 @@ import com.company.project.common.exception.BusinessException;
 import com.company.project.common.utils.DataResult;
 import com.company.project.common.utils.DateUtils;
 import com.company.project.entity.system.SysFilesEntity;
-import com.company.project.mapper.SysFilesMapper;
+import com.company.project.mapper.system.SysFilesMapper;
 import com.company.project.service.system.SysFilesService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

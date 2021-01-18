@@ -2,7 +2,7 @@ package com.company.project.service.system.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.company.project.entity.system.SysJobLogEntity;
-import com.company.project.mapper.SysJobLogMapper;
+import com.company.project.mapper.system.SysJobLogMapper;
 import com.company.project.service.system.SysJobLogService;
 import org.springframework.stereotype.Service;
 

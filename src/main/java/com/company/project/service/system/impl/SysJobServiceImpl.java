@@ -5,7 +5,7 @@ import com.company.project.common.exception.BusinessException;
 import com.company.project.common.job.utils.ScheduleUtils;
 import com.company.project.common.utils.Constant;
 import com.company.project.entity.system.SysJobEntity;
-import com.company.project.mapper.SysJobMapper;
+import com.company.project.mapper.system.SysJobMapper;
 import com.company.project.service.system.SysJobService;
 import org.quartz.CronTrigger;
 import org.quartz.Scheduler;

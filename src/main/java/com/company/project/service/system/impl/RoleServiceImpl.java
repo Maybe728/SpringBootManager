@@ -9,7 +9,7 @@ import com.company.project.entity.system.SysRole;
 import com.company.project.entity.system.SysRoleDeptEntity;
 import com.company.project.entity.system.SysRolePermission;
 import com.company.project.entity.system.SysUserRole;
-import com.company.project.mapper.SysRoleMapper;
+import com.company.project.mapper.system.SysRoleMapper;
 import com.company.project.service.system.*;
 import com.company.project.vo.system.req.RolePermissionOperationReqVO;
 import com.company.project.vo.system.resp.DeptRespNodeVO;
