@@ -21,7 +21,7 @@
 
 .ew-map-select-poi {
     height: 505px;
-    width: 250px;
+    width: 25%;
     overflow-x: hidden;
     overflow-y: auto;
     float: left;

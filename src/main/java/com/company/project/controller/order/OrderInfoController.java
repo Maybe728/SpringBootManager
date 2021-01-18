@@ -21,7 +21,7 @@ import com.company.project.service.order.OrderInfoService;
 
 
 /**
- * 
+ *
  *
  * @author SuperHero
  * @date 2021-01-13 19:03:34
@@ -78,13 +78,8 @@ public class OrderInfoController {
 
         Page page = new Page(orderInfo.getPage(), orderInfo.getLimit());
         LambdaQueryWrapper<OrderInfoEntity> queryWrapper = Wrappers.lambdaQuery();
-        //查询条件
-        if (!StringUtils.isEmpty (orderInfo.getOrderNo ())) {
-            queryWrapper.like (OrderInfoEntity::getOrderNo, orderInfo.getOrderNo ());
-        }
-        if (!StringUtils.isEmpty (orderInfo.getSalesModel ())){
-            queryWrapper.eq (OrderInfoEntity::getSalesModel,orderInfo.getSalesModel ());
-        }
+        //查询条件示例
+        //queryWrapper.eq(OrderInfoEntity::getId, orderInfo.getId());
         IPage<OrderInfoEntity> iPage = orderInfoService.page(page, queryWrapper);
         return DataResult.success(iPage);
     }

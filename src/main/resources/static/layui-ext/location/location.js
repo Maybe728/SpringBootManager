@@ -1,22 +1,23 @@
+var choiceAddress="";
 layui.define(['layer', 'locationX'], function (exports) {
     var $ = layui.jquery,
         layer = layui.layer,
         MOD_NAME = "location",
         GPS = layui.locationX;
 
-	
+
 	var tpl0 = '<div class="cur-load0"></div>\n' +
             '<div class="cur-load1"></div>\n' +
             '<div class="ew-map-select-tool" style="position: relative;">\n' +
-            '    已选地址：<input id="site" class="layui-input  inline-block" style="width: 250px;" autocomplete="off"/>\n' +
-            '    &nbsp;&nbsp;&nbsp;经度：<input id="lng" class="layui-input  inline-block" style="width: 100px;" autocomplete="off"/>\n' +
-            '    &nbsp;&nbsp;&nbsp;纬度：<input id="lat" class="layui-input  inline-block" style="width: 100px;" autocomplete="off"/>\n' +
+            '    已选地址：<input id="site" class="layui-input  inline-block" style="width: 30%;" autocomplete="off"/>\n' +
+            '    &nbsp;&nbsp;&nbsp;经度：<input id="lng" class="layui-input  inline-block" style="width: 20%;" autocomplete="off"/>\n' +
+            '    &nbsp;&nbsp;&nbsp;纬度：<input id="lat" class="layui-input  inline-block" style="width: 20%;" autocomplete="off"/>\n' +
             '    <button id="ew-map-select-btn-ok" class="layui-btn icon-btn pull-right" type="button"><i\n' +
             '            class="layui-icon">&#xe605;</i>确定\n' +
             '    </button>\n' +
             '</div>\n' +
             '<div id="map" style="width: 100%;height: calc(100% - 48px);"></div>';
-	
+
 	var tpl1 ='<div class="cur-load0"></div>\n' +
             '<div class="cur-load1"></div>\n' +
             '<div class="ew-map-select-tool" style="position: relative;">\n' +
@@ -29,12 +30,11 @@ layui.define(['layer', 'locationX'], function (exports) {
             '</div>\n' +
             '<div class="map-select">\n' +
             '\n' +
-            '    <div id="map" style="width: 800px;height: 505px;float: right;"></div>\n' +
+            '    <div id="map" style="width: 74%;height: 505px;float: right;"></div>\n' +
             '    <div id="ew-map-select-poi" class="layui-col-sm5 ew-map-select-search-list ew-map-select-poi">\n' +
             '    </div>\n' +
             '\n' +
             '</div>';
-  
 
     var obj = function (config) {
 
@@ -43,6 +43,7 @@ layui.define(['layer', 'locationX'], function (exports) {
             type: 0, // 0 : 仅定位  1： 带有搜索的定位
             longitude: 116.404,
             latitude: 39.915,
+            address:'北京市',
             title: '定位',
             zoom: 18,
             apiType: "baiduMap",
@@ -50,7 +51,7 @@ layui.define(['layer', 'locationX'], function (exports) {
             mapType: 0,
             searchKey: '村',
             init: function () {
-                return {longitude: 116.404, latitude: 39.915};
+                return {address:'北京市',longitude: 116.404, latitude: 39.915};
             },
             success: function () {
 
@@ -64,9 +65,11 @@ layui.define(['layer', 'locationX'], function (exports) {
         var initData = this.config.init();
         this.config.longitude = initData.longitude;
         this.config.latitude = initData.latitude;
+        this.config.address = initData.address;
 
         this.lng = this.config.longitude;
         this.lat = this.config.latitude;
+        this.address = this.config.address;
         // 转换初始坐标
         this.initCoordinate = function (lng, lat) {
             var o = this;
@@ -154,14 +157,15 @@ layui.define(['layer', 'locationX'], function (exports) {
                 marker = new BMap.Marker(point);
                 map.addOverlay(marker);
 
-                geoc.getLocation(pt, function(rs){
+                geoc.getLocation(point, function(rs){
                     //addressComponents对象可以获取到详细的地址信息
                     var addComp = rs.addressComponents;
                     var site = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
                     //将对应的HTML元素设置值
                     $("#site").val(site);
-                    $("#longitude").val(pt.lng);
-                    $("#latitude").val(pt.lat);
+                    choiceAddress = site;
+                    $("#longitude").val(point.lng);
+                    $("#latitude").val(point.lat);
                 });
 
                 if (o.config.type==1){
@@ -653,11 +657,11 @@ layui.define(['layer', 'locationX'], function (exports) {
 /**------------------------------------------------------------------GAO DE MAP END--------------------------------------------**/
         this.openMap = function () {
             var o = this;
-
+            choiceAddress = o.address;
             if (o.config.apiType == "baiduMap") {
                 var index = layer.open({
                     type: 1,
-                    area: ["1000px", "600px"],
+                    area: ["98%", "95%"],
                     title: o.config.title,
                     content: o.config.type == 0 ? tpl0:tpl1,
                     success: function () {
@@ -675,7 +679,7 @@ layui.define(['layer', 'locationX'], function (exports) {
                         }
                         // 绑定事件
                         $("#ew-map-select-btn-ok").on("click", function () {
-                            o.config.success({lng: o.lng ? o.lng : 116.404, lat: o.lat ? o.lat : 39.915});
+                            o.config.success({address:choiceAddress,lng: o.lng ? o.lng : 116.404, lat: o.lat ? o.lat : 39.915});
                             layer.close(index);
                         })
                     }

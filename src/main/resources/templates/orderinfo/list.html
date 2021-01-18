@@ -216,20 +216,24 @@
         let address = $("#receiptAddress").val()?$("#receiptAddress").val():'浙江省湖州市长兴县';
 
         location.render("#locationBtn",{
-            type:1,
+            type:0,
             apiType: "baiduMap",
             coordinate: "baiduMap",
             mapType: 0,
             zoom: 15,
             title: '区域定位',
             init: function(){
-                return {address:address,longitude: $("#longitude").val()?$("#longitude").val():locationData.lng,latitude: $("#latitude").val()?$("#latitude").val():locationData.lat};
+                return {
+                    address:address,
+                    longitude: $("#longitude").val()?$("#longitude").val():locationData.lng,
+                    latitude: $("#latitude").val()?$("#latitude").val():locationData.lat
+                };
             },
             success: function (data) {
                 console.log(data);
                 $("#longitude").val(data.lng);
                 $("#latitude").val(data.lat);
-                $("#receiptAddress").val(data.address);
+                $(".operation input[name=receiptAddress]").val(data.address);
             }
         });
 
