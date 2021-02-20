@@ -102,7 +102,7 @@
 </div>
 
 <div id="deptTree" style="display: none"></div>
-<div id="roles" class="demo-transfer" style="display: none"></div>
+<div id="roles" class="demo-transfer" style="display: none;margin-top: 3%;margin-left: 1%"></div>
 </body>
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
@@ -300,10 +300,10 @@
                         initTransfer(res.data);
                         layer.open({
                             type: 1,
-                            offset: '50px',
+                            offset: '80px',
                             skin: 'layui-layer-molv',
                             title: "赋予角色",
-                            area: ['500px', '400px'],
+                            area: ['500px', '530px'],
                             shade: 0,
                             shadeClose: false,
                             content: jQuery("#roles"),
