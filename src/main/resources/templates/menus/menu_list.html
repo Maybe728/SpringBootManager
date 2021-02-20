@@ -162,10 +162,10 @@
                                 }
                             }
                         },
-                        {field: 'pidName', title: '父级名称'},
-                        {field: 'orderNum', title: '排序',width: 70},
-                        {field: 'perms', title: '资源标识',width: 150},
-                        {field: 'createTime', title: '创建时间', Width: 150},
+                        {field: 'pidName', width: 150, title: '父级名称'},
+                        {field: 'orderNum', width: 50, title: '排序',width: 70},
+                        {field: 'perms', width: 150, title: '资源标识',width: 150},
+                        {field: 'createTime', width: 150, title: '创建时间', Width: 150},
                         {
                             field: 'status', title: '状态',width: 100, templet: function (item) {
                                 if (item.status === 1) {
@@ -176,7 +176,7 @@
                                 }
                             }
                         },
-                        {title: '操作', width: 180, toolbar: '#tool'}
+                        {title: '操作', width: 180, toolbar: '#tool',fixed: 'right'}
                     ]
                 ]
             });
