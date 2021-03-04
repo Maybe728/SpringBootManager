@@ -46,7 +46,7 @@
         <!--        </div>-->
         <div class="layui-form-item">
             <button class="pear-btn pear-btn-success login" lay-submit lay-filter="login">
-                登 入
+                登 陆
             </button>
         </div>
 
@@ -64,17 +64,21 @@
 
         // 进行登录操作
         form.on('submit(login)', function (data) {
+            let index = layer.load(2, {time: 2*1000});
             data = data.field;
             if (data.captcha === '') {
                 layer.msg('请输入验证码');
+                layer.close(index);
                 return false;
             }
             if (data.username === '') {
                 layer.msg('用户名不能为空');
+                layer.close(index);
                 return false;
             }
             if (data.password === '') {
                 layer.msg('密码不能为空');
+                layer.close(index);
                 return false;
             }
 
@@ -97,11 +101,11 @@
                         layer.msg(res.msg);
                         $("#img").click();
                     }
+                    layer.close(index);
                 }
             });
             return false;
         });
     });
 </script>
-</body>
 </html>

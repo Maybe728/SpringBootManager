@@ -31,6 +31,7 @@
         <thymeleaf-shiro.version>2.0.0</thymeleaf-shiro.version>
         <knife4j.version>2.0.2</knife4j.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
+        <docker.image.prefix>bozai</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -173,17 +174,33 @@
             <artifactId>ureport2-console</artifactId>
             <version>2.2.9</version>
         </dependency>
-        
+
     </dependencies>
 
     <build>
-        <finalName>manager</finalName>
+        <finalName>cm</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory></dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
                 </configuration>
             </plugin>
         </plugins>
