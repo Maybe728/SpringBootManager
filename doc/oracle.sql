@@ -1,334 +1,1675 @@
--- 部门
-CREATE TABLE sys_dept (
-  id varchar2(64),
-  dept_no varchar2(64),
-  name varchar2(64),
-  pid varchar2(64),
-  status NUMBER(10, 0),
-  relation_code varchar2(3000),
-  dept_manager_id varchar2(64),
-  manager_name varchar2(255),
-  phone varchar2(20),
-  create_time date,
-  update_time date,
-  deleted NUMBER(10, 0),
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_dept IS '部门';
+create table CP.SYS_DEPT
+(
+    ID              VARCHAR2(64) not null
+        primary key,
+    DEPT_NO         VARCHAR2(64),
+    NAME            VARCHAR2(64),
+    PID             VARCHAR2(64),
+    STATUS          NUMBER(10),
+    RELATION_CODE   VARCHAR2(3000),
+    DEPT_MANAGER_ID VARCHAR2(64),
+    MANAGER_NAME    VARCHAR2(255),
+    PHONE           VARCHAR2(20),
+    CREATE_TIME     DATE,
+    UPDATE_TIME     DATE,
+    DELETED         NUMBER(10)
+)
+/
 
--- 日志
-CREATE TABLE sys_log (
-  id varchar2(64),
-  user_id varchar2(64),
-  username varchar2(50),
-  operation varchar2(50),
-  time NUMBER(10, 0),
-  method varchar2(200),
-  params varchar2(1000),
-  ip varchar2(64),
-  create_time  date,
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_log IS '日志';
+comment on table CP.SYS_DEPT is '部门'
+/
 
--- 菜单权限
-CREATE TABLE sys_permission  (
-  id varchar2(64) ,
-  name varchar2(300),
-  perms varchar2(500) ,
-  icon varchar2(255),
-  url varchar2(100),
-  target varchar2(50),
-  pid varchar2(64),
-  order_num NUMBER(10, 0),
-  type NUMBER(10, 0),
-  status NUMBER(10, 0),
-  create_time  date,
-  update_time  date,
-  deleted NUMBER(10, 0),
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_permission IS '菜单权限';
+create table CP.SYS_LOG
+(
+    ID          VARCHAR2(64) not null
+        primary key,
+    USER_ID     VARCHAR2(64),
+    USERNAME    VARCHAR2(50),
+    OPERATION   VARCHAR2(50),
+    TIME        NUMBER(10),
+    METHOD      VARCHAR2(200),
+    PARAMS      VARCHAR2(1000),
+    IP          VARCHAR2(64),
+    CREATE_TIME DATE
+)
+/
 
--- 角色
-CREATE TABLE sys_role (
-  id varchar2(64),
-  name varchar2(255),
-  description varchar2(255),
-  status NUMBER(10, 0),
-  create_time  date,
-  update_time  date,
-  deleted NUMBER(10, 0),
-  data_scope NUMBER(10, 0),
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_role IS '角色';
+comment on table CP.SYS_LOG is '日志'
+/
 
--- 角色权限关联表
-CREATE TABLE sys_role_permission (
-  id varchar2(64) ,
-  role_id varchar2(64),
-  permission_id varchar2(64),
-  create_time  date,
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_role_permission IS '角色权限关联表';
+create table CP.SYS_PERMISSION
+(
+    ID          VARCHAR2(64) not null
+        primary key,
+    NAME        VARCHAR2(300),
+    PERMS       VARCHAR2(500),
+    ICON        VARCHAR2(255),
+    URL         VARCHAR2(100),
+    TARGET      VARCHAR2(50),
+    PID         VARCHAR2(64),
+    ORDER_NUM   NUMBER(10),
+    TYPE        NUMBER(10),
+    STATUS      NUMBER(10),
+    CREATE_TIME DATE,
+    UPDATE_TIME DATE,
+    DELETED     NUMBER(10)
+)
+/
 
--- 角色部门关联表
-CREATE TABLE sys_role_dept (
-  id varchar2(64) ,
-  role_id varchar2(64),
-  dept_id varchar2(64),
-  create_time  date,
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_role_permission IS '角色部门关联表';
+comment on table CP.SYS_PERMISSION is '菜单权限'
+/
 
+create table CP.SYS_ROLE
+(
+    ID          VARCHAR2(64) not null
+        primary key,
+    NAME        VARCHAR2(255),
+    DESCRIPTION VARCHAR2(255),
+    STATUS      NUMBER(10),
+    CREATE_TIME DATE,
+    UPDATE_TIME DATE,
+    DELETED     NUMBER(10),
+    DATA_SCOPE  NUMBER(10)
+)
+/
 
--- 用户
-CREATE TABLE sys_user (
-  id varchar2(64),
-  username varchar2(50),
-  salt varchar2(20),
-  password varchar2(200),
-  phone varchar2(20),
-  dept_id varchar2(64),
-  real_name varchar2(60),
-  nick_name varchar2(60),
-  email varchar2(50),
-  status NUMBER(10, 0),
-  sex NUMBER(10, 0),
-  deleted NUMBER(10, 0),
-  create_id varchar2(64),
-  update_id varchar2(64),
-  create_where NUMBER(10, 0) DEFAULT 1,
-  create_time date,
-  update_time date,
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_user IS '用户';
+comment on table CP.SYS_ROLE is '角色'
+/
 
--- 用户角色
-CREATE TABLE sys_user_role (
-  id varchar2(64),
-  user_id varchar2(64),
-  role_id varchar2(64),
-  create_time  date,
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_user_role IS '用户角色';
+create table CP.SYS_ROLE_PERMISSION
+(
+    ID            VARCHAR2(64) not null
+        primary key,
+    ROLE_ID       VARCHAR2(64),
+    PERMISSION_ID VARCHAR2(64),
+    CREATE_TIME   DATE
+)
+/
 
+comment on table CP.SYS_ROLE_PERMISSION is '角色部门关联表'
+/
 
--- 数据字典
-CREATE TABLE sys_dict  (
-  id varchar2(64) ,
-  name varchar2(100) ,
-  remark varchar2(255) ,
-  create_time  date,
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_dict IS '数据字典';
+create table CP.SYS_ROLE_DEPT
+(
+    ID          VARCHAR2(64) not null
+        primary key,
+    ROLE_ID     VARCHAR2(64),
+    DEPT_ID     VARCHAR2(64),
+    CREATE_TIME DATE
+)
+/
 
--- 数据字典明细
-CREATE TABLE sys_dict_detail  (
-  id varchar2(50) ,
-  label varchar2(255) ,
-  value varchar2(255) ,
-  sort NUMBER(10, 0) ,
-  dict_id varchar2(50) ,
-  create_time  date,
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_dict_detail IS '数据字典明细';
+create table CP.SYS_USER
+(
+    ID           VARCHAR2(64) not null
+        primary key,
+    USERNAME     VARCHAR2(50),
+    SALT         VARCHAR2(20),
+    PASSWORD     VARCHAR2(200),
+    PHONE        VARCHAR2(20),
+    DEPT_ID      VARCHAR2(64),
+    REAL_NAME    VARCHAR2(60),
+    NICK_NAME    VARCHAR2(60),
+    EMAIL        VARCHAR2(50),
+    STATUS       NUMBER(10),
+    SEX          NUMBER(10),
+    DELETED      NUMBER(10),
+    CREATE_ID    VARCHAR2(64),
+    UPDATE_ID    VARCHAR2(64),
+    CREATE_WHERE NUMBER(10) default 1,
+    CREATE_TIME  DATE,
+    UPDATE_TIME  DATE
+)
+/
 
--- 定时任务
-CREATE TABLE sys_job  (
-  id varchar2(50) ,
-  bean_name varchar2(200),
-  params varchar2(2000) ,
-  cron_expression varchar2(100) ,
-  status  NUMBER(10, 0),
-  remark varchar2(255) ,
-  create_time  date ,
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_job IS '定时任务';
+comment on table CP.SYS_USER is '用户'
+/
 
--- 定时任务日志
-CREATE TABLE sys_job_log  (
-  id varchar2(50) ,
-  job_id varchar2(50) ,
-  bean_name varchar2(200) ,
-  params varchar2(1000) ,
-  status NUMBER(10, 0),
-  error NUMBER(10, 0),
-  times NUMBER(10, 0) ,
-  create_time  date ,
-  PRIMARY KEY (id)
- );
-COMMENT ON TABLE sys_job_log IS '定时任务日志';
+create table CP.SYS_USER_ROLE
+(
+    ID          VARCHAR2(64) not null
+        primary key,
+    USER_ID     VARCHAR2(64),
+    ROLE_ID     VARCHAR2(64),
+    CREATE_TIME DATE
+)
+/
 
--- 文章管理
- CREATE TABLE sys_content  (
-  id varchar2(50),
-  title varchar2(255),
-  type NUMBER(10, 0),
-  content VARCHAR2(4000) ,
-  create_time  date ,
-  create_id varchar2(50) ,
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_content IS '文章管理';
+comment on table CP.SYS_USER_ROLE is '用户角色'
+/
 
--- 文件管理
-CREATE TABLE sys_files  (
-  id varchar2(50) ,
-  url varchar2(200),
-  create_date  date ,
-  file_name varchar2(255),
-  file_path varchar2(255) ,
-  PRIMARY KEY (id)
-);
-COMMENT ON TABLE sys_files IS '文件管理';
+create table CP.SYS_DICT
+(
+    ID          VARCHAR2(64) not null
+        primary key,
+    NAME        VARCHAR2(100),
+    REMARK      VARCHAR2(255),
+    CREATE_TIME DATE
+)
+/
 
+comment on table CP.SYS_DICT is '数据字典'
+/
 
--- 初始数据
--- 初始数据
-INSERT INTO sys_dept(id, dept_no, name, pid, status, relation_code, dept_manager_id, manager_name, phone, deleted) VALUES ('1', 'D000001', '总公司', '0', 1, 'D000001', NULL, '小李', '13888888888', 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('1', '删除', 'sysGenerator:delete', NULL, 'sysGenerator/delete', NULL, '15', 1, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('10', '赋予角色', 'sys:user:role:update', NULL, '/sys/user/roles/*', NULL, '24', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('11', '菜单权限管理', NULL, NULL, '/index/menus', '_self', '51', 98, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('12', '列表', 'sys:dept:list', NULL, '/sys/depts', NULL, '41', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('13', '删除', 'sys:role:deleted', NULL, '/sys/role/*', NULL, '53', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('14', '定时任务立即执行', 'sysJob:run', NULL, '/sysJob/run', '_self', '59', 5, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('15', '代码生成', NULL, NULL, '/index/sysGenerator', '_self', '54', 1, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('16', '列表', 'sysGenerator:list', NULL, 'sysGenerator/listByPage', NULL, '15', 1, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('17', '详情', 'sys:permission:detail', NULL, '/sys/permission/*', NULL, '11', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('18', '定时任务恢复', 'sysJob:resume', NULL, '/sysJob/resume', '_self', '59', 4, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('19', '列表', 'sys:role:list', NULL, '/sys/roles', NULL, '53', 0, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('2', 'SQL 监控', '', '', '/druid/sql.html', '_self', '21', 98, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('20', '修改', 'sysGenerator:update', NULL, 'sysGenerator/update', NULL, '15', 1, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('21', '其他', NULL, 'layui-icon-list', NULL, NULL, '0', 200, 1, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('22', '详情', 'sys:dept:detail', NULL, '/sys/dept/*', NULL, '41', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('23', '列表', 'sys:user:list', NULL, '/sys/users', NULL, '24', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('24', '用户管理', NULL, NULL, '/index/users', '_self', '51', 100, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('25', '详情', 'sys:user:detail', NULL, '/sys/user/*', NULL, '24', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('26', '删除', 'sys:permission:deleted', NULL, '/sys/permission/*', NULL, '11', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('27', '文件管理', '', '', '/index/sysFiles', '_self', '54', 10, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('28', '列表', 'sysFiles:list', NULL, 'sysFiles/listByPage', NULL, '27', 0, 3, 1,  1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('29', '新增', 'sysFiles:add', NULL, 'sysFiles/add', NULL, '27', 0, 3, 1,  1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('3', '新增', 'sys:role:add', NULL, '/sys/role', NULL, '53', 0, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('30', '删除', 'sysFiles:delete', NULL, 'sysFiles/delete', NULL, '27', 0, 3, 1,  1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('31', '文章管理', NULL, NULL, '/index/sysContent', '_self', '54', 10, 2, 1,  1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('32', '列表', 'sysContent:list', NULL, 'sysContent/listByPage', NULL, '31', 0, 3, 1,  1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('33', '新增', 'sysContent:add', NULL, 'sysContent/add', NULL, '31', 0, 3, 1,  1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('34', '修改', 'sysContent:update', NULL, 'sysContent/update', NULL, '31', 0, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('35', '删除', 'sysContent:delete', NULL, 'sysContent/delete', NULL, '31', 0, 3, 1,  1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('36', '更新', 'sys:role:update', NULL, '/sys/role', NULL, '53', 0, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('38', '更新', 'sys:dept:update', NULL, '/sys/dept', NULL, '41', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('39', '详情', 'sys:role:detail', NULL, '/sys/role/*', NULL, '53', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('4', '添加', 'sysGenerator:add', NULL, 'sysGenerator/add', NULL, '15', 1, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('40', '编辑', 'sys:permission:update', NULL, '/sys/permission', NULL, '11', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('41', '部门管理', NULL, NULL, '/index/depts', '_self', '51', 100, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('42', '新增', 'sys:user:add', NULL, '/sys/user', NULL, '24', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('43', '列表', 'sys:permission:list', NULL, '/sys/permissions', NULL, '11', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('44', '新增', 'sys:permission:add', NULL, '/sys/permission', NULL, '11', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('45', '字典管理', NULL, '', '/index/sysDict', NULL, '54', 10, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('46', '列表', 'sysDict:list', NULL, 'sysDict/listByPage', NULL, '45', 0, 3, 1,  1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('47', '新增', 'sysDict:add', NULL, 'sysDict/add', NULL, '45', 0, 3, 1,1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('48', '修改', 'sysDict:update', NULL, 'sysDict/update', NULL, '45', 0, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('49', '删除', 'sysDict:delete', NULL, 'sysDict/delete', NULL, '45', 0, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('5', '删除', 'sys:dept:deleted', NULL, '/sys/dept/*', NULL, '41', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('50', '表单构建', '', '', '/index/build', '_self', '21', 1, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('51', '组织管理', NULL, 'layui-icon-user', NULL, NULL, '0', 1, 1, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('52', '拥有角色', 'sys:user:role:detail', NULL, '/sys/user/roles/*', NULL, '24', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('53', '角色管理', NULL, NULL, '/index/roles', '_self', '51', 99, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('54', '系统管理', NULL, 'layui-icon-set-fill', NULL, NULL, '0', 98, 1, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('55', '定时任务暂停', 'sysJob:pause', NULL, '/sysJob/pause', '_self', '59', 1, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('56', '更新', 'sys:user:update', NULL, '/sys/user', NULL, '24', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('57', '删除', 'sys:user:deleted', NULL, '/sys/user', NULL, '24', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('58', '删除', 'sys:log:deleted', NULL, '/sys/logs', NULL, '8', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('59', '定时任务', NULL, NULL, '/index/sysJob', '_self', '54', 10, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('6', '接口管理', '', '', '/doc.html', '_blank', '21', 100, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('60', '列表', 'sysJob:list', NULL, 'sysJob/listByPage', NULL, '59', 0, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('61', '新增', 'sysJob:add', NULL, 'sysJob/add', NULL, '59', 0, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('62', '修改', 'sysJob:update', NULL, 'sysJob/update', NULL, '59', 0, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('63', '删除', 'sysJob:delete', NULL, 'sysJob/delete', NULL, '59', 0, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('7', '列表', 'sys:log:list', NULL, '/sys/logs', NULL, '8', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('8', '日志管理', NULL, NULL, '/index/logs', '_self', '54', 97, 2, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('9', '新增', 'sys:dept:add', NULL, '/sys/dept', NULL, '41', 100, 3, 1, 1);
-INSERT INTO sys_permission(id, name, perms, icon, url, target, pid, order_num, type, status, deleted) VALUES ('1311115974068449281', '数据权限', 'sys:role:bindDept', '', '/sys/role/bindDept', '_self', '53', 5, 3, 1, 1);
-INSERT INTO sys_role(id, name, description, status, deleted) VALUES ('1', '超级管理员', '拥有所有权限-不能删除', 1, 1);
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('1', '1', '1');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('10', '1', '10');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('11', '1', '11');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('12', '1', '12');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('13', '1', '13');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('14', '1', '14');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('15', '1', '15');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('16', '1', '16');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('17', '1', '17');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('18', '1', '18');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('19', '1', '19');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('2', '1', '2');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('20', '1', '20');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('21', '1', '21');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('22', '1', '22');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('23', '1', '23');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('24', '1', '24');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('25', '1', '25');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('26', '1', '26');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('27', '1', '27');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('28', '1', '28');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('29', '1', '29');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('3', '1', '3');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('30', '1', '30');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('31', '1', '31');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('32', '1', '32');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('33', '1', '33');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('34', '1', '34');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('35', '1', '35');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('36', '1', '36');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('38', '1', '38');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('39', '1', '39');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('4', '1', '4');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('40', '1', '40');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('41', '1', '41');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('42', '1', '42');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('43', '1', '43');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('44', '1', '44');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('45', '1', '45');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('46', '1', '46');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('47', '1', '47');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('48', '1', '48');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('49', '1', '49');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('5', '1', '5');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('50', '1', '50');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('51', '1', '51');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('52', '1', '52');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('53', '1', '53');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('54', '1', '54');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('55', '1', '55');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('56', '1', '56');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('57', '1', '57');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('58', '1', '58');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('59', '1', '59');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('6', '1', '6');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('60', '1', '60');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('61', '1', '61');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('62', '1', '62');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('63', '1', '63');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('7', '1', '7');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('8', '1', '8');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('9', '1', '9');
-INSERT INTO sys_role_permission(id, role_id, permission_id) VALUES ('1311116066716430339', '1', '1311115974068449281');
-INSERT INTO sys_user(id, username, salt, password, phone, dept_id, real_name, nick_name, email, status, sex, deleted, create_id, update_id, create_where) VALUES ('1', 'admin', '324ce32d86224b00a02b', '2102b59a75ab87616b62d0b9432569d0', '13888888888', '1', '爱糖宝', '爱糖宝', 'xxxxxx@163.com', 1, 2, 1, '1', '1', 3);
-INSERT INTO sys_user_role(id, user_id, role_id) VALUES ('1', '1', '1');
-INSERT INTO sys_dict(id, name, remark) VALUES ('1255790029680242690', 'sex', '性别');
-INSERT INTO sys_dict(id, name, remark) VALUES ('1282504369620430849', 'content_type', '文章类型略略略');
-INSERT INTO sys_dict_detail(id, label, value, sort, dict_id) VALUES ('1255790073535885314', '男', '1', 1, '1255790029680242690');
-INSERT INTO sys_dict_detail(id, label, value, sort, dict_id) VALUES ('1255790100115189761', '女', '2', 2, '1255790029680242690');
-INSERT INTO sys_dict_detail(id, label, value, sort, dict_id) VALUES ('1282504475715350530', '诗词', '1', 1, '1282504369620430849');
-INSERT INTO sys_dict_detail(id, label, value, sort, dict_id) VALUES ('1282504651729317889', '散文', '2', 2, '1282504369620430849');
-INSERT INTO sys_dict_detail(id, label, value, sort, dict_id) VALUES ('1282846022950842369', '剧本', '3', 3, '1282504369620430849');
-INSERT INTO sys_job(id, bean_name, params, cron_expression, status, remark) VALUES ('1252884495040782337', 'testTask', '1', '0 */1 * * * ?', 0, '1');
+create table CP.SYS_DICT_DETAIL
+(
+    ID          VARCHAR2(50) not null
+        primary key,
+    LABEL       VARCHAR2(255),
+    VALUE       VARCHAR2(255),
+    SORT        NUMBER(10),
+    DICT_ID     VARCHAR2(50),
+    CREATE_TIME DATE
+)
+/
+
+comment on table CP.SYS_DICT_DETAIL is '数据字典明细'
+/
+
+create table CP.SYS_JOB
+(
+    ID              VARCHAR2(50) not null
+        primary key,
+    BEAN_NAME       VARCHAR2(200),
+    PARAMS          VARCHAR2(2000),
+    CRON_EXPRESSION VARCHAR2(100),
+    STATUS          NUMBER(10),
+    REMARK          VARCHAR2(255),
+    CREATE_TIME     DATE
+)
+/
+
+comment on table CP.SYS_JOB is '定时任务'
+/
+
+create table CP.SYS_JOB_LOG
+(
+    ID          VARCHAR2(50) not null
+        primary key,
+    JOB_ID      VARCHAR2(50),
+    BEAN_NAME   VARCHAR2(200),
+    PARAMS      VARCHAR2(1000),
+    STATUS      NUMBER(10),
+    ERROR       NUMBER(10),
+    TIMES       NUMBER(10),
+    CREATE_TIME DATE
+)
+/
+
+comment on table CP.SYS_JOB_LOG is '定时任务日志'
+/
+
+create table CP.SYS_CONTENT
+(
+    ID          VARCHAR2(50) not null
+        primary key,
+    TITLE       VARCHAR2(255),
+    TYPE        NUMBER(10),
+    CONTENT     VARCHAR2(4000),
+    CREATE_TIME DATE,
+    CREATE_ID   VARCHAR2(50)
+)
+/
+
+comment on table CP.SYS_CONTENT is '文章管理'
+/
+
+create table CP.SYS_FILES
+(
+    ID          VARCHAR2(50) not null
+        primary key,
+    URL         VARCHAR2(200),
+    CREATE_DATE DATE,
+    FILE_NAME   VARCHAR2(255),
+    FILE_PATH   VARCHAR2(255)
+)
+/
+
+comment on table CP.SYS_FILES is '文件管理'
+/
+
+create table CP.CW_ORDER_INFO
+(
+    ID                 NVARCHAR2(32),
+    ORDER_NO           NVARCHAR2(32),
+    MATERIAL_NO        NVARCHAR2(32),
+    GROUPS_NUMBER      NUMBER(38),
+    UNIT_NUMBER        NUMBER(38),
+    RECEIPT_ADDRESS    NVARCHAR2(128),
+    DETAILED_ADDRESS   NVARCHAR2(128),
+    PRODUCT_TYPE       NVARCHAR2(32),
+    SALES_MODEL        NVARCHAR2(32),
+    CARTON_DESCRIPTION NVARCHAR2(1024),
+    CUSTOMER_TYPE      NVARCHAR2(32),
+    MARKETING_CHANNEL  NVARCHAR2(32),
+    DELIVERY_DATE      DATE,
+    CREATE_TIME        DATE,
+    UPDATE_TIME        DATE,
+    CREATE_ID          NVARCHAR2(32),
+    UPDATE_ID          NVARCHAR2(32),
+    DELETED            VARCHAR2(1)
+)
+/
+
+INSERT INTO CP.CW_ORDER_INFO (ID, ORDER_NO, MATERIAL_NO, GROUPS_NUMBER, UNIT_NUMBER, RECEIPT_ADDRESS, DETAILED_ADDRESS, PRODUCT_TYPE, SALES_MODEL, CARTON_DESCRIPTION, CUSTOMER_TYPE, MARKETING_CHANNEL, DELIVERY_DATE, CREATE_TIME, UPDATE_TIME, CREATE_ID, UPDATE_ID, DELETED) VALUES ('1352256467006873602', '99999999', '88888888', 100, 66, '北京市北京市东城区东华门大街86号', '详细地址说明', '1', '1', '专业描述', '1', '2', TO_DATE('2021-01-21 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2021-01-21 22:07:20', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2021-01-25 15:17:06', 'YYYY-MM-DD HH24:MI:SS'), '1', '1', '1');
+INSERT INTO CP.SYS_DEPT (ID, DEPT_NO, NAME, PID, STATUS, RELATION_CODE, DEPT_MANAGER_ID, MANAGER_NAME, PHONE, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1', 'D000001', '总公司', '0', 1, 'D000001', null, '小李', '13888888888', null, null, 1);
+INSERT INTO CP.SYS_DICT (ID, NAME, REMARK, CREATE_TIME) VALUES ('1255790029680242690', 'sex', '性别', null);
+INSERT INTO CP.SYS_DICT (ID, NAME, REMARK, CREATE_TIME) VALUES ('1282504369620430849', 'content_type', '文章类型略略略', null);
+INSERT INTO CP.SYS_DICT (ID, NAME, REMARK, CREATE_TIME) VALUES ('1353601911637049345', 'customer_type', '客户类型', TO_DATE('2021-01-25 15:13:39', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT (ID, NAME, REMARK, CREATE_TIME) VALUES ('1353602121423552514', 'marketing_channel', '营销渠道', TO_DATE('2021-01-25 15:14:29', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT (ID, NAME, REMARK, CREATE_TIME) VALUES ('1353602339493806082', 'product_type', '产品类型', TO_DATE('2021-01-25 15:15:21', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT (ID, NAME, REMARK, CREATE_TIME) VALUES ('1353602529479000065', 'sales_model', '销售型号', TO_DATE('2021-01-25 15:16:06', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1255790073535885314', '男', '1', 1, '1255790029680242690', null);
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1255790100115189761', '女', '2', 2, '1255790029680242690', null);
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1282504475715350530', '诗词', '1', 1, '1282504369620430849', null);
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1282504651729317889', '散文', '2', 2, '1282504369620430849', null);
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1282846022950842369', '剧本', '3', 3, '1282504369620430849', null);
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353601981849698305', '大客户', '1', 1, '1353601911637049345', TO_DATE('2021-01-25 15:13:55', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602034358190081', '中客户', '2', 2, '1353601911637049345', TO_DATE('2021-01-25 15:14:08', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602065320542209', '小客户', '3', 3, '1353601911637049345', TO_DATE('2021-01-25 15:14:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602201450872834', '线上销售', '1', 1, '1353602121423552514', TO_DATE('2021-01-25 15:14:48', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602245285543937', '展会签单', '2', 2, '1353602121423552514', TO_DATE('2021-01-25 15:14:58', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602277082562561', '销售上门', '3', 3, '1353602121423552514', TO_DATE('2021-01-25 15:15:06', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602362797359106', '新能源电池', '1', 1, '1353602339493806082', TO_DATE('2021-01-25 15:15:26', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602440844967937', '铅酸电池', '2', 2, '1353602339493806082', TO_DATE('2021-01-25 15:15:45', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602468036640770', '锂电池', '3', 3, '1353602339493806082', TO_DATE('2021-01-25 15:15:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602576589422593', 'EMS20000', '1', 1, '1353602529479000065', TO_DATE('2021-01-25 15:16:17', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602610731057154', 'ECM10000', '2', 2, '1353602529479000065', TO_DATE('2021-01-25 15:16:25', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_DICT_DETAIL (ID, LABEL, VALUE, SORT, DICT_ID, CREATE_TIME) VALUES ('1353602665584164866', 'EECN001', '3', 3, '1353602529479000065', TO_DATE('2021-01-25 15:16:38', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB (ID, BEAN_NAME, PARAMS, CRON_EXPRESSION, STATUS, REMARK, CREATE_TIME) VALUES ('1252884495040782337', 'testTask', '1', '0 */1 * * * ?', 0, '1', null);
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544545431554', '1352248544507682818', '54', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544553820161', '1352248544507682818', '15', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544553820162', '1352248544507682818', '1', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544553820163', '1352248544507682818', '16', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544553820164', '1352248544507682818', '4', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544553820165', '1352248544507682818', '20', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544553820166', '1352248544507682818', '59', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544553820167', '1352248544507682818', '63', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544553820168', '1352248544507682818', '60', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544553820169', '1352248544507682818', '61', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544553820170', '1352248544507682818', '62', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544562208769', '1352248544507682818', '55', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544562208770', '1352248544507682818', '18', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544562208771', '1352248544507682818', '14', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544562208772', '1352248544507682818', '45', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544562208773', '1352248544507682818', '46', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544562208774', '1352248544507682818', '47', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544562208775', '1352248544507682818', '48', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544562208776', '1352248544507682818', '49', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544570597377', '1352248544507682818', '27', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544570597378', '1352248544507682818', '29', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544570597379', '1352248544507682818', '30', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544570597380', '1352248544507682818', '28', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544570597381', '1352248544507682818', '31', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544570597382', '1352248544507682818', '35', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544570597383', '1352248544507682818', '34', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544570597384', '1352248544507682818', '33', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544574791682', '1352248544507682818', '32', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544574791683', '1352248544507682818', '8', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544574791684', '1352248544507682818', '7', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544574791685', '1352248544507682818', '58', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544574791686', '1352248544507682818', '21', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544574791687', '1352248544507682818', '50', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544578985986', '1352248544507682818', '2', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352248544578985987', '1352248544507682818', '6', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189778391042', '1', '1341953890455773185', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779649', '1', '1341954439204954113', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779650', '1', '1342017924945252354', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779651', '1', '1349239768278458369', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779652', '1', '1349240658506899458', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779653', '1', '1349241057997578242', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779654', '1', '1349241222913417217', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779655', '1', '1349241368946499585', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779656', '1', '1349241436298633218', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779657', '1', '1349241518590877698', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779658', '1', '1349241762783256577', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779659', '1', '1349241851895439361', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779660', '1', '1349241987203686402', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779661', '1', '1349242181236383746', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779662', '1', '798990645204090880', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189786779663', '1', '798990645204090881', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168257', '1', '798990645208285184', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168258', '1', '798990645204090882', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168259', '1', '798990645204090883', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168260', '1', '51', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168261', '1', '53', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168262', '1', '19', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168263', '1', '3', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168264', '1', '36', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168265', '1', '1311115974068449281', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168266', '1', '13', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168267', '1', '39', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168268', '1', '41', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168269', '1', '9', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168270', '1', '12', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168271', '1', '5', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168272', '1', '22', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168273', '1', '38', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168274', '1', '24', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168275', '1', '10', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189795168276', '1', '57', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556866', '1', '56', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556867', '1', '52', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556868', '1', '42', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556869', '1', '23', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556870', '1', '25', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556871', '1', '54', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556872', '1', '11', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556873', '1', '44', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556874', '1', '43', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556875', '1', '40', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556876', '1', '17', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556877', '1', '26', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556878', '1', '45', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556879', '1', '46', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556880', '1', '47', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556881', '1', '48', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556882', '1', '49', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556883', '1', '59', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556884', '1', '63', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556885', '1', '60', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189803556886', '1', '61', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945474', '1', '62', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945475', '1', '55', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945476', '1', '18', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945477', '1', '14', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945478', '1', '31', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945479', '1', '32', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945480', '1', '33', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945481', '1', '34', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945482', '1', '35', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945483', '1', '27', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945484', '1', '29', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945485', '1', '30', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945486', '1', '28', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945487', '1', '8', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945488', '1', '7', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945489', '1', '58', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945490', '1', '21', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945491', '1', '15', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945492', '1', '1', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189811945493', '1', '16', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189820334082', '1', '20', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189820334083', '1', '4', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189820334084', '1', '50', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189820334085', '1', '1334681073389404162', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189820334086', '1', '2', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_ROLE_PERMISSION (ID, ROLE_ID, PERMISSION_ID, CREATE_TIME) VALUES ('1352255189824528385', '1', '6', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353624648560574465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353624900218814466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353625151872860161', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353625403531100162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353625655218700289', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 16:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353625906851774466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353626158505820162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353626410180837377', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 16:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353626661822300161', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353626913480540162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353627165155557378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353627416809603074', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 16:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353627668467843073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353627920138665985', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 16:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353628171771740162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353628423438368770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353628675092414466', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 17:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353628926746460162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353632701615865858', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 17:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353632953269911554', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353633204944928769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353633456615751682', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353633708248825857', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353633959915454466', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 17:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353634211624026113', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 17:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353634463227740161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353634714898563074', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 17:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353634966548414465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353635218202460162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353635469860700161', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 17:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353635721565077505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 17:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353635973181374466', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 17:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353636224915111937', '1252884495040782337', 'testTask', '1', 0, null, 5, TO_DATE('2021-01-25 17:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353636476489465857', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 17:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353636728193843202', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 17:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353636979826917377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353637231510323201', '1252884495040782337', 'testTask', '1', 0, null, 11, TO_DATE('2021-01-25 17:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353637483151785985', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 17:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353637734835191809', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353637986485043201', '1252884495040782337', 'testTask', '1', 0, null, 6, TO_DATE('2021-01-25 17:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353638238139088898', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353638489784745986', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 17:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353638741451374593', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 17:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353638993097031682', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 17:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353639244763660289', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 17:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353639496421900290', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 17:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353639748084334593', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353639999729991681', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353640251384037377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353640503050665985', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 17:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353640754700517378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353641006354563073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353641258071523329', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 17:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353641509666848770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353641761362837505', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 17:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353642012974940161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353642264641568769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353642516358529025', '1252884495040782337', 'testTask', '1', 0, null, 7, TO_DATE('2021-01-25 17:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353642767953854465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353643019612094466', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 17:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353643271282917377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353643522932768769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 17:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353643774645534721', '1252884495040782337', 'testTask', '1', 0, null, 6, TO_DATE('2021-01-25 18:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353644026240860161', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353644277907488769', '1252884495040782337', 'testTask', '1', 0, null, 6, TO_DATE('2021-01-25 18:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353644529590894594', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353644781261717505', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353645032869625857', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353645284565614593', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353645536228048898', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353645787840151554', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 18:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353646039548723202', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 18:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353646291206963202', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353646542848425986', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 18:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353646794531831809', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353647046177488897', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353647297844117506', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353647549472997378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353647801127043074', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353648052797865986', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353648304451911681', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353648556126928897', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353648807764197377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353649059426631681', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 18:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353649311076483074', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353649562747305985', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 18:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353649814401351681', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353650066055397377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353650317701054466', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 18:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353650569371877377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353650821017534465', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 18:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353651072684163073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353651324405317634', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 18:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353651576000643073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353651827650494465', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353652079367454722', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353652330962780161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353652582616825857', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353652834283454466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353653085937500161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353653337650266113', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353653589253980162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353653840908025858', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353249678743519233', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 15:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353249929487400961', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 15:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353533548512620546', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 10:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353533799944368129', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 10:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353534051623579649', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 10:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353534303265042433', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 10:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353534554927476737', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 10:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353540594960080898', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 11:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353540846375051266', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353541098045874178', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 11:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353541349708308481', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353541601345576961', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353541853024788482', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353542104934764545', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353542356337152002', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353542607970226178', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353542859662020610', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353543111710302209', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353543362991054850', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 11:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353543614615740417', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353543866286563329', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 11:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353544117944803330', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 11:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353544369615626242', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 11:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353544621252894721', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353544872919523330', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353545124565180418', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353545376227614721', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 11:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353545627890049025', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353545879539900417', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353546131193946113', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353546382856380417', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353546634518814721', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353546886181249025', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353547137831100418', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 11:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353547389489340418', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353547641139191809', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 11:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353547892805820417', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353548144464060417', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353548396118106114', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353549654417694721', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 11:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353549906088517633', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 11:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353550157729980417', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353550409375637506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353550661050654722', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 11:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353550912708894722', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 11:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353551164354551809', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353551416016986113', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353551667683614721', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353551919341854722', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353552170995900418', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353552422637363202', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353552674299797505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353552925962231809', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353553177633054722', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 12:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353654092574654466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353654344237088770', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 18:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353654595907911682', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353654847570345985', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353655099253751809', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 18:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353655350886825986', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353655602566037505', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 18:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353655854211694593', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 18:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353656105853157377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353656357515591681', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353656609157054465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353656860865626114', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353657112473534466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353657364135968770', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353657615810985986', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353657867469225986', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 18:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353658119110688769', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 18:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353658370815066113', '1252884495040782337', 'testTask', '1', 0, null, 11, TO_DATE('2021-01-25 18:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353658622523637762', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 18:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353658874110574593', '1252884495040782337', 'testTask', '1', 0, null, 9, TO_DATE('2021-01-25 19:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353659125752037378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353659377435443202', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 19:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353659629102071810', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 19:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353659880709980162', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353660132397580290', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353660384055820289', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353660635722448898', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353660887368105986', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 19:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353661139001180162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353661390701363202', '1252884495040782337', 'testTask', '1', 0, null, 7, TO_DATE('2021-01-25 19:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353661642359603201', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353661894001065985', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353662145676083202', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 19:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353662397334323202', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353662648946425858', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353662900692746241', '1252884495040782337', 'testTask', '1', 0, null, 5, TO_DATE('2021-01-25 19:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353663152296460289', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353663403963088897', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353663655587774466', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 19:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353663907258597378', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353664158912643074', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353664410587660290', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 19:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353664662245900290', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353664913883168769', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353665165562380289', '1252884495040782337', 'testTask', '1', 0, null, 6, TO_DATE('2021-01-25 19:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353665417216425985', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353665668862083073', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353665920520323073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353666172165980161', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352257641302917122', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352257892726276098', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-21 22:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352258144346767361', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-21 22:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352258396034367489', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-21 22:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352258647650664449', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352258899329875970', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-21 22:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352259150946172930', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352259402650550273', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352259654262652929', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352259905946058753', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-21 22:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352260157579132930', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352260409249955841', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352260660895612929', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352260912562241538', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352261164216287233', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352261416000356353', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-21 22:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352261667528572929', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352261919182618625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352262170845052929', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352262422503292929', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352262674153144322', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-21 22:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352262925828161538', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352263177490595841', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-21 22:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352263429161418753', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352263680811270145', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352263932456927234', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352264184110972929', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352264435785990145', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352264687431647234', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352264939094081537', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352265190743932930', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352265442406367234', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352265694060412930', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352265945718652930', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352266197376892930', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352266449030938625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352266700705955842', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-21 22:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353250181091115009', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 15:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353250432766132225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 15:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353250684420177921', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 15:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353250936258772994', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 15:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353251187745046529', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353251439420063745', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353251691057332225', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353251942723960834', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353252194369617922', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353252446027857922', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353252697686097921', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353252949465972738', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353253201010966530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353253452656623618', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353253704314863618', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353253956073766914', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353254207643926529', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353254459314749441', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353254710943629314', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353254962597675010', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353255214264303617', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353255465947709441', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353255717572395010', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353255969239023618', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353256220914040833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353256472551309314', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353256724205355010', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353256975876177922', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353257227517640705', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353257479247183874', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353257730867675138', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353257982538498049', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353258234154795009', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-24 16:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353258485834006530', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353258737496440834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353258989150486529', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353259240808726529', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353259492479549442', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353259744121012225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353259995796029441', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353260247437492226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353260499091537922', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353260750762360834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353261002403823618', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353261254057869314', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353261505716109314', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353261757374349314', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353262009028395009', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353262260699217921', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353262512344875010', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353262764003115009', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353263015678132226', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353263267327983617', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353263518977835010', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353263770636075010', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353264022294315009', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353264273952555010', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-24 16:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353264525614989314', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-24 16:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353264777264840705', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-24 16:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353534806573133826', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 10:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353535058227179521', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 10:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353535309910585345', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 10:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353535561573019650', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 10:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353535813222871042', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 10:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353536064889499649', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 10:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353536316543545346', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 10:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353536568193396737', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 10:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352266952360001537', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352267204030824450', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-21 22:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352267455693258754', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352267707334721538', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352267958997155842', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352268210655395842', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 22:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352268462334607362', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352268713988653057', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-21 22:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352268965642698753', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352269217271578625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352269468925624321', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 22:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352269720600641538', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352269972263075841', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352270223912927233', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352270475571167234', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352270727221018625', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-21 23:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352270978891841537', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352271230537498625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352271482195738626', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352271733862367233', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352271985528995841', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352272237174652930', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352272488837087234', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352272740495327233', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352272992166150146', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352273243841167362', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352273495507795969', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352273747132481537', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352273998807498753', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352274250465738753', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352274502136561666', '1252884495040782337', 'testTask', '1', 0, null, 5, TO_DATE('2021-01-21 23:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352274753782218753', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352275005440458753', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352275257090310145', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352275508761133058', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352275760406790146', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352276012065030146', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352276263744241666', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352276515381510145', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352276767048138754', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352277018689601537', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352277270352035841', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352277522006081537', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352277773668515842', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-21 23:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352278025335144449', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352278276980801538', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1352278528634847233', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-21 23:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353536819830665217', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 10:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353537071505682433', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 10:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353537575015084033', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 10:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353537826476191746', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 10:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353538078147014658', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353538329780088834', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353538581643849730', '1252884495040782337', 'testTask', '1', 0, null, 8, TO_DATE('2021-01-25 11:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353539084939390977', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353539588306165761', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 11:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353539839754690562', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 11:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353666423845191682', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353666675474071554', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353666927165865986', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353667178815717377', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 19:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353667430465568769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353667682161557506', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 19:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353667933786243074', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353668185486426113', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353668437098528769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353668688744185857', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 19:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353668940406620162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353669192106803202', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353669443723100161', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 19:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353669695377145857', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 19:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353669947056357377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353670198706208770', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353670450368643073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353670702064631810', '1252884495040782337', 'testTask', '1', 0, null, 6, TO_DATE('2021-01-25 19:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353670953701900290', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353671205351751682', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353671457039351810', '1252884495040782337', 'testTask', '1', 0, null, 7, TO_DATE('2021-01-25 19:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353671708672425986', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 19:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353671960313888770', '1252884495040782337', 'testTask', '1', 0, null, 5, TO_DATE('2021-01-25 19:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353672211997294593', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353672463642951681', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 19:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353672715317968898', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353672966984597506', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353673218600894466', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 19:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353673470284300290', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353673721929957377', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 19:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353673973621751809', '1252884495040782337', 'testTask', '1', 0, null, 5, TO_DATE('2021-01-25 20:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353674225254825985', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 20:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353674476921454593', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353674728546140162', '1252884495040782337', 'testTask', '1', 0, null, 6, TO_DATE('2021-01-25 20:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353674980204380161', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 20:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353675231871008770', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 20:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353675483566997505', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 20:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353675735325900801', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 20:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353675986854117377', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353676238625603585', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 20:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353676490187374594', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 20:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353676741820448769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353676993516437505', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353677245187260418', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353677496790974466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353677748432437249', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353678000149397505', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353598476145614850', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 15:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353598727774494721', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353598979415957505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 15:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353599231082586113', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353599482736631809', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353599734386483201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 15:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353599986069889026', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353600242853511170', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:07:01', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353600489428254722', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353600741048745986', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353600992702791682', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 15:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353601244361031682', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353601496006688770', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 15:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353601747673317378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353601999318974466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353602250973020161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353602502648037378', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353602754293694465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353603005956128770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353603257610174466', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 15:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353603509268414465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353603760926654466', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 15:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353604012614254594', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 15:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353604264251523073', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 15:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353604515913957378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353604767563808769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353605019222048769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353605270905454594', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 15:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353605522567888897', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 15:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353605774205157378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353606025880174594', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 15:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353606277509054465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353606529209237505', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 15:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353606780846505985', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353607032504745985', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353607284158791682', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353607535796060162', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 15:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353607787475271681', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353608039146094594', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353608290783363074', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 15:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353608542454185985', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 15:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353608794091454466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353609045758083073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353609297420517377', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353609549108117505', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 15:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353609800732803073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353610052424597505', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353610304061865986', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353610555703328770', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 15:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353610807369957377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353611059040780290', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353611310703214593', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 15:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353611562344677377', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 15:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353611813994528770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353612065656963073', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 15:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353612317323591681', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 15:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353612568977637378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353612820627488770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353613072298311681', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353613323948163073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 15:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353613575623180289', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 16:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353613827268837377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353614078918688770', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 16:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353614330602094593', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 16:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353614582281306113', '1252884495040782337', 'testTask', '1', 0, null, 5, TO_DATE('2021-01-25 16:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353614833893408770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353615085551648769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353615337226665985', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 16:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353615588868128769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353615840534757377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353616092188803074', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353616343834460162', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353616595517865985', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 16:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353616847155134465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353617098846928898', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 16:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353617350463225857', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353617602121465857', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353617853788094466', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353618105442140161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353618357100380161', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353618608775397377', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 16:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353618860433637378', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 16:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353619112075100162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353619363733340161', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353619615404163074', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 16:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353619867062403073', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 16:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353620118708060161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353620370370494466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353620622024540161', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353620873678585857', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353621125341020162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353621377007648769', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 16:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353621628653305858', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353621880319934465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353622131973980162', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353622383632220162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353622635290460162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353622886952894465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353623138606940162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353623390269374465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353623641923420161', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353623893585854466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 16:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353624145265065986', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 16:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353624396893945858', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 16:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353678251753111553', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 20:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353678503419740162', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353678755090563074', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 20:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353679006773968898', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353679258436403202', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 20:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353679510082060290', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353679761748688897', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353680013411123202', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 20:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353680265081946114', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353680516752769025', '1252884495040782337', 'testTask', '1', 0, null, 6, TO_DATE('2021-01-25 20:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353680768369065985', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353681020002140161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353681271664574465', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 20:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353681523347980290', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353681774985248770', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 20:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353682026651877377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353682278293340161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353682529955774465', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 20:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353682781609820162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353683033301614593', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 20:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353683284926300161', '1252884495040782337', 'testTask', '1', 0, null, 8, TO_DATE('2021-01-25 20:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353683536651649026', '1252884495040782337', 'testTask', '1', 0, null, 10, TO_DATE('2021-01-25 20:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353683788280528897', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353684039888437250', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353684291752198146', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353684543225888770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353684794879934466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353685046559145985', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353685298204803074', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353685549854654465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353685801517088770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 20:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353686053225660417', '1252884495040782337', 'testTask', '1', 0, null, 8, TO_DATE('2021-01-25 20:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353686304888094721', '1252884495040782337', 'testTask', '1', 0, null, 11, TO_DATE('2021-01-25 20:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353686556491808770', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353686808179408898', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353687059787317249', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353687311508471809', '1252884495040782337', 'testTask', '1', 0, null, 8, TO_DATE('2021-01-25 20:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353687563158323201', '1252884495040782337', 'testTask', '1', 0, null, 7, TO_DATE('2021-01-25 20:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353687814858506241', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353688066458025986', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 20:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353688318124654593', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 20:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353688569766117377', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 20:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353688821487271937', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 20:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353689073070014466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353689324715671553', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353689576394883074', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 21:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353689828048928769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353690079723945985', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353690331373797377', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353690583036231682', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353690834694471682', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353691086390460417', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353691337994174465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353691589757272066', '1252884495040782337', 'testTask', '1', 0, null, 11, TO_DATE('2021-01-25 21:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353691841340014593', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353692092973088769', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353692344656494594', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353692596289568769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353692847943614465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353693099606048770', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353693351264288770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353693602918334465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353693854601740290', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353694106230620162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353694357918220290', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353694609563877377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353694861234700289', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353695112901328897', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 21:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353695364530208770', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353695616201031681', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 21:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353695867846688770', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 21:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353696119534288897', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353696371179945986', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353696622846574593', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 21:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353696874496425986', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353697126137888769', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353697377804517378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353697629450174465', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353697881125191681', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353698132766654465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353698384424894466', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353698636083134466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353698887741374465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353699139399614465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353699391057854466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353699642716094465', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353699894374334465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353700146040963073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353700397703397378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353700649349054466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353700900994711554', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353701152661340162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353701404311191553', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353701655977820162', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 21:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353701907636060162', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 21:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353702159298494465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353702410952540162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353702662610780162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353702914269020161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353703165939843074', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353703417606471682', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 21:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353703669247934465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353703920931340289', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 21:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353704172576997378', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366208315643252737', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366208567200829442', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366208818867458049', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-01 10:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366209070693462018', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366209322175541249', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366209573833781250', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366209825475244034', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366210077150261249', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366210328833667074', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366210580454158338', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366210832129175553', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366211083783221250', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366211335428878337', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366211587112284162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366211838753746946', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366212090411986946', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366212342061838338', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366212593728466946', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366212845399289858', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-03-01 10:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366213097049141250', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366213348694798338', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366213600353038337', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366213852011278337', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366214103673712642', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-01 10:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366214355323564034', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366214606994386945', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-01 10:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366214858652626945', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366215110302478337', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366215361956524033', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366215613623152641', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366215865289781250', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366216116952215554', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366216368589484033', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366216620260306945', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366216871926935553', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366217123576786945', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365637806757007362', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365638057995816961', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365638309641474050', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365638561299714050', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365638812953759746', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365639064624582658', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365639316270239746', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365639567928479746', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365639819569942529', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365640071215599618', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365640322899005441', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365640574561439746', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365640826240651266', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365641077882114050', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365641329531965442', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365641581202788354', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365641832819085314', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365642084502491138', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365642336156536833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365642587806388225', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365642839481405441', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365643091127062529', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365643342789496834', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365643594460319745', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365643846118559745', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365644097772605442', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365644349439234050', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365644601076502530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365644852743131138', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365645104397176833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365645356059611138', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365645607709462529', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365645859371896834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365646111025942530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365646362675793922', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365646614342422530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365646865992273922', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 20:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365647117654708226', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365647369312948225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 20:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365647621000548354', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 20:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365647872629428226', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365648124300251138', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365648375937519617', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365648627612536834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365648879270776833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365649130929016834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365649382583062529', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365649634241302530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365649885899542530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365650137566171137', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365650389220216834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365650640874262530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365650892524113922', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-27 21:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365651144194936833', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 21:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365651395861565442', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 21:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365651647511416833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365651899165462530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365652150819508225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365652402486136834', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365652654144376833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365652905806811138', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365653157460856834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365653409123291138', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365653660768948225', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365653912431382530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365654164093816833', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365654415743668225', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365654667410296833', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365654919055953922', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365655170726776834', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365655422385016834', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365655674047451137', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365655925697302529', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365656177355542530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365656429017976834', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365656680672022529', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365656932326068225', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365657183988502529', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365657435642548226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365657687309176833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365657938967416834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365658190621462530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365658442275508226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365658693942136833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365658945596182529', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365659197258616833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365659448916856834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365659700570902530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365659952233336833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365660203891576834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365660455541428226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365660707199668225', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365660958862102529', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365661210516148226', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365661462178582529', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365661713832628225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365661965490868226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365662217157496833', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365662468811542530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 21:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365662720469782530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 21:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365662972123828226', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 22:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365663223790456834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 22:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365663475444502530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 22:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365666367165452289', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 22:13:29', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365666495465017346', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 22:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365666747001622529', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 22:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365666998664056833', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 22:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365667250318102530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 22:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365667501976342529', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 22:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365667753626193922', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 22:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365668005288628226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 22:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365668256946868226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 22:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365668508609302530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 22:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365668760271736833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 22:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365669011921588226', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-27 22:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365669263588216834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 22:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365669515229679618', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-27 22:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365669766917279745', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-27 22:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366205547469717506', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 09:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366205798960185345', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 09:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366206050614231041', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 09:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366206302285053953', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 09:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366206553930711041', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366206805597339649', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366207057255579650', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366207308943179778', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-01 10:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366207560580448257', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366207812221911042', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 10:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366208063884345345', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 10:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366618518599622658', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366618770127839233', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366619021786079233', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366619273452707842', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366619525110947841', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366619776752410625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366620028419039233', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366620280081473537', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366620531727130625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366620783389564930', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366621035047804930', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366621286706044929', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366621538372673537', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366621790018330626', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366622041684959234', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366622293359976449', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-02 13:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366622544997244929', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366622796659679234', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366623048305336321', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366623299971964930', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366623551626010625', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366623803284250625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366624054942490625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366624306600730626', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366624558250582018', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366624809917210626', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366625061571256322', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366625313233690625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366625564891930625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366625816550170626', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366626068204216322', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366626319858262017', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366626571529084930', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366626823178936322', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366627074841370625', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366627326516387841', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-02 13:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366627578145267714', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366627829837062145', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366628081512079361', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366628333128376322', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366628584782422017', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-02 13:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366628836453244930', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366629088119873538', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 13:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366629339769724930', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-02 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353704424239431682', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 22:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353704675880894465', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 22:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353704927551717377', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353705179193180162', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 22:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353705430851420161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353705682509660162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353705934226620417', '1252884495040782337', 'testTask', '1', 0, null, 5, TO_DATE('2021-01-25 22:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353706185847111681', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353706437488574465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353706689163591682', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353706940809248770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353707192480071682', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353707444125728769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353707695788163073', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353707947442208770', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353708199096254466', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 22:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353708450762883073', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353708702429511682', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 22:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353708954079363074', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353709205716631553', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 22:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353709457395843074', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353709709045694465', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353709960708128770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353710212366368770', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353710464020414465', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353710715674460161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353710967332700162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353711218990940161', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 22:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353711470682734593', '1252884495040782337', 'testTask', '1', 0, null, 6, TO_DATE('2021-01-25 22:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353711722299031554', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353711974011797506', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353712225665843202', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353712477328277505', '1252884495040782337', 'testTask', '1', 0, null, 5, TO_DATE('2021-01-25 22:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353712728973934593', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 22:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353712980627980289', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 22:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353713232265248769', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353713483919294466', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 22:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353713735577534465', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353713987269328897', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-01-25 22:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353714238910791682', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353714490552254466', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 22:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353714742214688769', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353714993893900290', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353715245564723202', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-25 22:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353715497181020161', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353715748839260162', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 22:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353716000493305858', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353716252151545858', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353716503822368770', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 22:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353716755509968898', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 22:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353717007126265858', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353717258792894465', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353717510455328770', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-01-25 22:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353717762113568769', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353718013767614466', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353718265417465857', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-25 22:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353718517079900162', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-25 22:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353965645505191938', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353965897146654721', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-26 15:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353966148792311809', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353966400463134722', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353966652104597505', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353966903779614722', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353967155437854722', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353967407091900417', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-26 15:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353967658754334722', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-26 15:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353967910399991810', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353968162075009025', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353968413724860418', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353968665370517506', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353968917041340417', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-26 15:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353969168695386113', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353969420341043202', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353969672007671809', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353969923653328898', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353970175324151809', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353970426974003202', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353970678644826113', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-26 15:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353970930294677506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353971181952917505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353971433619546113', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353971685269397506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353971936923443202', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353972188590071810', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353972440248311810', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353972691906551809', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353972943564791809', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353973195231420418', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353973446881271809', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353973698543706113', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353973950193557506', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 15:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353974201855991809', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353974453501648898', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353974705168277506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353974956830711810', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353975208476368898', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353975460142997505', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-01-26 15:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353975711809626113', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353975963459477506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353976215117717506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353976466784346114', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353976718434197505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353976970084048898', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353977221750677506', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353977473404723201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353977725067157505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353977976717008897', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353978228379443201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353978480041877505', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353978731695923202', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353978983366746114', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353979235016597506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353979486670643202', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353979738337271810', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353979989995511809', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353980241645363201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353980493303603201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353980744966037506', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353980996632666113', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353981248286711810', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353981499940757505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353981751594803202', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353982003257237506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353982254907088897', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353982506569523202', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353982758227763201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353983009890197505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353983261544243201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353983513202483201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353983764860723201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353984016527351810', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353984268181397506', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353984519843831809', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353984771502071809', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353985023156117505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353985274835329025', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353985526468403202', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353985778126643201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353986029797466114', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353986281447317505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353986533105557506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353986784763797505', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 16:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353987036422037506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353987288076083201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353987539738517505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353987791396757506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353988043054997506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353988294709043201', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353988546375671809', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353988798025523202', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353989049687957506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353989301350391810', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353989553004437505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353989804662677506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353990056320917505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353990307979157506', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353990559624814594', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353990811295637505', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 16:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353991062945488898', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-01-26 17:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353991314607923202', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 17:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365880404851576834', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 12:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365880656505622530', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365880908155473921', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365881159817908225', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365881411513896961', '1252884495040782337', 'testTask', '1', 0, null, 11, TO_DATE('2021-02-28 12:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365881663130193921', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365881914788433922', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365882166442479618', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365882418100719618', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365882669767348225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365882921421393922', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365883173079633922', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365883424742068226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365883676400308225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365883928058548226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365884179813257217', '1252884495040782337', 'testTask', '1', 0, null, 25, TO_DATE('2021-02-28 12:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365884431366639617', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365884683033268226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365884934683119618', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365885186345553922', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365885438007988225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365885689674616834', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365885941320273921', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365886192978513921', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365886444640948225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365886696315965442', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 12:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365886947953233922', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365887199611473921', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365887451294879745', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 12:52:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365887702974091266', '1252884495040782337', 'testTask', '1', 0, null, 11, TO_DATE('2021-02-28 12:53:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365887954590388225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:54:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365888206252822530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365888457911062530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:56:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365888709565108225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 12:57:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365888961223348225', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 12:58:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365889212910948353', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 12:59:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365889464539828226', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365889716206456833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:01:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365889967856308226', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:02:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365890219522936834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365890471176982529', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:04:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365890722831028225', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 13:05:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365890974489268226', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:06:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365891226155896834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:07:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365891477805748225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:08:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365891729472376833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365891981143199745', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 13:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365892232776273922', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 13:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1353965394971025409', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-01-26 15:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365892484451291138', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 13:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365892736105336833', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 13:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365892987750993922', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365893239421816833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365893491121999873', '1252884495040782337', 'testTask', '1', 0, null, 11, TO_DATE('2021-02-28 13:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365893742742491137', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365893994404925442', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365894246046388225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365894497704628225', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 13:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365894749371256834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365895001021108226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 13:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365895252700319745', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 13:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365895504341782530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365895756008411137', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 13:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365896007662456834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365896259312308226', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365896510978936834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365896762628788225', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 13:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365897014291222530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365897265945268226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 13:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365897517620285442', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 13:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365897769261748225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365898020932571138', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 13:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365898272578228225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365898524236468226', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 13:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365898775894708226', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365899027569725442', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365899279219576833', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 13:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365899530882011138', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365899782544445441', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 13:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365900034194296833', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 13:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365900285844148225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365900537502388226', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365900789173211137', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 13:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365901040831451138', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 13:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365901292477108225', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 13:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365901544139542529', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-02-28 13:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365921928456982530', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 15:09:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365922180115222529', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 15:10:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365922431781851137', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:11:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365922683440091137', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:12:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365922935119302657', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:13:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365923186764959745', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:14:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365923438431588353', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:15:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365923690085634050', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:16:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365923941739679746', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:17:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365924193406308353', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365924445064548353', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-02-28 15:19:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365924696722788354', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:20:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365924948376834050', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:21:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365925200043462658', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:22:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365925451701702658', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:23:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365925703632572417', '1252884495040782337', 'testTask', '1', 0, null, 72, TO_DATE('2021-02-28 15:24:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365925955018182657', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:25:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365926206663839745', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:26:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365926458326274049', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:27:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365926709992902657', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:28:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365926961642754049', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:29:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365927213300994050', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365927464963428353', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:31:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365927716613279746', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:32:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365927968279908354', '1252884495040782337', 'testTask', '1', 0, null, 3, TO_DATE('2021-02-28 15:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365928219933954050', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365928471592194049', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365928723233656834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-02-28 15:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365928974912868353', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-02-28 15:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1365974525121417218', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-02-28 18:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366199759288160257', '1252884495040782337', 'testTask', '1', 0, null, 5, TO_DATE('2021-03-01 09:33:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366200010870902786', '1252884495040782337', 'testTask', '1', 0, null, 4, TO_DATE('2021-03-01 09:34:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366200262478811137', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 09:35:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366200514187382785', '1252884495040782337', 'testTask', '1', 0, null, 5, TO_DATE('2021-03-01 09:36:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366200765812068353', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-01 09:37:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366201017466114049', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-01 09:38:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366201269111771137', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 09:39:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366201520765816833', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 09:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366201772424056833', '1252884495040782337', 'testTask', '1', 0, null, 0, TO_DATE('2021-03-01 09:41:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366202024078102529', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 09:42:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366202275748925442', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-01 09:43:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366202527411359746', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 09:44:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366202779065405441', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-01 09:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366203030723645441', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-01 09:46:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366203282352525314', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 09:47:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366203534161760258', '1252884495040782337', 'testTask', '1', 0, null, 32, TO_DATE('2021-03-01 09:48:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366203785689976834', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 09:49:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366204037394354178', '1252884495040782337', 'testTask', '1', 0, null, 1, TO_DATE('2021-03-01 09:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_JOB_LOG (ID, JOB_ID, BEAN_NAME, PARAMS, STATUS, ERROR, TIMES, CREATE_TIME) VALUES ('1366204289027428353', '1252884495040782337', 'testTask', '1', 0, null, 2, TO_DATE('2021-03-01 09:51:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353542155614539777', '1', 'admin', '角色管理-分页获取角色信息', 103, 'com.company.project.controller.system.RoleController.pageInfo()', '[{}]', '192.168.1.102', TO_DATE('2021-01-25 11:16:12', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353543022501650434', '1', 'admin', '菜单权限管理-获取所有菜单权限', 447, 'com.company.project.controller.system.PermissionController.getAllMenusPermission()', null, '192.168.1.102', TO_DATE('2021-01-25 11:19:38', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353549914527457282', '1', 'admin', '菜单权限管理-获取所有菜单权限', 683, 'com.company.project.controller.system.PermissionController.getAllMenusPermission()', null, '192.168.1.102', TO_DATE('2021-01-25 11:47:02', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1366210586250686465', '1', 'admin', '角色管理-分页获取角色信息', 123, 'com.company.project.controller.system.RoleController.pageInfo()', '[{}]', '192.168.56.1', TO_DATE('2021-03-01 10:16:01', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1366210601824137217', '1', 'admin', '角色管理-查询角色详情', 387, 'com.company.project.controller.system.RoleController.detailInfo()', '["1"]', '192.168.56.1', TO_DATE('2021-03-01 10:16:05', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1366210649353990146', '1', 'admin', '角色管理-查询角色详情', 280, 'com.company.project.controller.system.RoleController.detailInfo()', '["1"]', '192.168.56.1', TO_DATE('2021-03-01 10:16:16', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1366210696481189889', '1', 'admin', '角色管理-分页获取角色信息', 10, 'com.company.project.controller.system.RoleController.pageInfo()', '[{}]', '192.168.56.1', TO_DATE('2021-03-01 10:16:27', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1366210811757441025', '1', 'admin', '机构管理-获取所有组织机构', 20, 'com.company.project.controller.system.DeptController.getDeptAll()', null, '192.168.56.1', TO_DATE('2021-03-01 10:16:55', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1366210843730620418', '1', 'admin', '机构管理-树型组织列表', 18, 'com.company.project.controller.system.DeptController.getTree()', '["1"]', '192.168.56.1', TO_DATE('2021-03-01 10:17:02', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1366210891646349314', '1', 'admin', '菜单权限管理-获取所有菜单权限', 227, 'com.company.project.controller.system.PermissionController.getAllMenusPermission()', null, '192.168.56.1', TO_DATE('2021-03-01 10:17:14', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1366211659405307906', '1', 'admin', '菜单权限管理-获取所有目录菜单树', 244, 'com.company.project.controller.system.PermissionController.getAllMenusPermissionTree()', '["56"]', '192.168.56.1', TO_DATE('2021-03-01 10:20:17', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1366212011307413505', '1', 'admin', '系统操作日志管理-分页查询系统操作日志', 36, 'com.company.project.controller.system.SysLogController.pageInfo()', '[{}]', '192.168.56.1', TO_DATE('2021-03-01 10:21:41', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1366212259597627393', '1', 'admin', '系统操作日志管理-分页查询系统操作日志', 22, 'com.company.project.controller.system.SysLogController.pageInfo()', '[{}]', '192.168.56.1', TO_DATE('2021-03-01 10:22:40', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248322935185410', '1', 'admin', '菜单权限管理-获取所有菜单权限', 555, 'com.company.project.controller.system.PermissionController.getAllMenusPermission()', null, '192.168.1.6', TO_DATE('2021-01-21 21:34:58', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248364156805121', '1', 'admin', '角色管理-分页获取角色信息', 131, 'com.company.project.controller.system.RoleController.pageInfo()', '[{}]', '192.168.1.6', TO_DATE('2021-01-21 21:35:08', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248383794536449', '1', 'admin', '角色管理-查询角色详情', 465, 'com.company.project.controller.system.RoleController.detailInfo()', '["1"]', '192.168.1.6', TO_DATE('2021-01-21 21:35:12', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248399741280258', '1', 'admin', '角色管理-更新角色信息', 161, 'com.company.project.controller.system.RoleController.updateDept()', '[{"description":"拥有所有权限-不能删除","id":"1","name":"超级管理员","permissions":["51","11","44","43","40","26","17","53","19","36","3","1311115974068449281","39","13","41","5","38","22","12","9","24","57","56","52","42","25","23","10","54","15","1","16","4","20","59","63","60","61","62","55","18","14","45","46","47","48","49","27","29","30","28","31","35","34","33","32","8","7","58","21","50","2","6"],"status":1,"updateTime":1611236116573}]', '192.168.1.6', TO_DATE('2021-01-21 21:35:16', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248400328482817', '1', 'admin', '角色管理-分页获取角色信息', 8, 'com.company.project.controller.system.RoleController.pageInfo()', '[{"name":""}]', '192.168.1.6', TO_DATE('2021-01-21 21:35:16', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248437880086530', '1', 'admin', '菜单权限管理-获取所有目录菜单树', 202, 'com.company.project.controller.system.PermissionController.getAllPermissionTree()', null, '192.168.1.6', TO_DATE('2021-01-21 21:35:25', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248544646094849', '1', 'admin', '角色管理-新增角色', 32, 'com.company.project.controller.system.RoleController.addRole()', '[{"createTime":1611236151231,"deleted":1,"description":"开发人员专用账号","id":"1352248544507682818","name":"开发人员","permissions":["54","15","1","16","4","20","59","63","60","61","62","55","18","14","45","46","47","48","49","27","29","30","28","31","35","34","33","32","8","7","58","21","50","2","6"],"status":1,"updateTime":1611236151231}]', '192.168.1.6', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248544855810049', '1', 'admin', '角色管理-分页获取角色信息', 5, 'com.company.project.controller.system.RoleController.pageInfo()', '[{"name":""}]', '192.168.1.6', TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248573070893057', '1', 'admin', '角色管理-查询角色详情', 391, 'com.company.project.controller.system.RoleController.detailInfo()', '["1352248544507682818"]', '192.168.1.6', TO_DATE('2021-01-21 21:35:58', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248599427899393', '1', 'admin', '角色管理-绑定角色部门信息', 41, 'com.company.project.controller.system.RoleController.bindDept()', '[{"dataScope":2,"depts":["1"],"id":"1352248544507682818"}]', '192.168.1.6', TO_DATE('2021-01-21 21:36:04', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248599717306369', '1', 'admin', '角色管理-分页获取角色信息', 10, 'com.company.project.controller.system.RoleController.pageInfo()', '[{"name":""}]', '192.168.1.6', TO_DATE('2021-01-21 21:36:04', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248613323628546', '1', 'admin', '机构管理-获取所有组织机构', 9, 'com.company.project.controller.system.DeptController.getDeptAll()', null, '192.168.1.6', TO_DATE('2021-01-21 21:36:07', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248621955506177', '1', 'admin', '机构管理-树型组织列表', 41, 'com.company.project.controller.system.DeptController.getTree()', '["1"]', '192.168.1.6', TO_DATE('2021-01-21 21:36:09', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248717694689282', '1', 'admin', '机构管理-树型组织列表', 7, 'com.company.project.controller.system.DeptController.getTree()', '[""]', '192.168.1.6', TO_DATE('2021-01-21 21:36:32', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248728671182849', '1', 'admin', '机构管理-树型组织列表', 5, 'com.company.project.controller.system.DeptController.getTree()', '[null]', '192.168.1.6', TO_DATE('2021-01-21 21:36:35', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255109797208066', '1', 'admin', '机构管理-树型组织列表', 2, 'com.company.project.controller.system.DeptController.getTree()', '[null]', '192.168.1.6', TO_DATE('2021-01-21 22:01:56', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255243578728450', '1', 'admin', '角色管理-分页获取角色信息', 7, 'com.company.project.controller.system.RoleController.pageInfo()', '[{}]', '192.168.1.6', TO_DATE('2021-01-21 22:02:28', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255263283568642', '1', 'admin', '机构管理-获取所有组织机构', 24, 'com.company.project.controller.system.DeptController.getDeptAll()', null, '192.168.1.6', TO_DATE('2021-01-21 22:02:33', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255268836827137', '1', 'admin', '机构管理-树型组织列表', 6, 'com.company.project.controller.system.DeptController.getTree()', '[null]', '192.168.1.6', TO_DATE('2021-01-21 22:02:34', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255379952328705', '1', 'admin', '暂停定时任务-', 41, 'com.company.project.controller.system.SysJobController.pause()', '[["1252884495040782337"]]', '192.168.1.6', TO_DATE('2021-01-21 22:03:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255402622541825', '1', 'admin', '恢复定时任务-', 7, 'com.company.project.controller.system.SysJobController.resume()', '[["1252884495040782337"]]', '192.168.1.6', TO_DATE('2021-01-21 22:03:06', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255430724378625', '1', 'admin', '获取运行时间-', 25, 'com.company.project.controller.system.SysJobController.getRecentTriggerTime()', '["* * * * * ?"]', '192.168.1.6', TO_DATE('2021-01-21 22:03:13', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352268458190635010', '1', 'admin', '角色管理-分页获取角色信息', 44, 'com.company.project.controller.system.RoleController.pageInfo()', '[{}]', '192.168.1.6', TO_DATE('2021-01-21 22:54:59', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352268463358017538', '1', 'admin', '机构管理-获取所有组织机构', 53, 'com.company.project.controller.system.DeptController.getDeptAll()', null, '192.168.1.6', TO_DATE('2021-01-21 22:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352268464779886594', '1', 'admin', '用户管理-分页获取用户列表', 55, 'com.company.project.controller.system.UserController.pageInfo()', '[{}]', '192.168.1.6', TO_DATE('2021-01-21 22:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352268464888938497', '1', 'admin', '机构管理-树型组织列表', 66, 'com.company.project.controller.system.DeptController.getTree()', '[null]', '192.168.1.6', TO_DATE('2021-01-21 22:55:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352268477329244161', '1', 'admin', '菜单权限管理-获取所有菜单权限', 879, 'com.company.project.controller.system.PermissionController.getAllMenusPermission()', null, '192.168.1.6', TO_DATE('2021-01-21 22:55:03', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352268552147238914', '1', 'admin', '用户管理-查询用户详情', 9, 'com.company.project.controller.system.UserController.youSelfInfo()', null, '192.168.1.6', TO_DATE('2021-01-21 22:55:21', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353965643013775362', '1', 'admin', '角色管理-分页获取角色信息', 44, 'com.company.project.controller.system.RoleController.pageInfo()', '[{}]', '192.168.1.112', TO_DATE('2021-01-26 15:18:59', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353965657266020354', '1', 'admin', '角色管理-查询角色详情', 199, 'com.company.project.controller.system.RoleController.detailInfo()', '["1"]', '192.168.1.112', TO_DATE('2021-01-26 15:19:02', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353965983532539905', null, null, '用户管理-退出', 29, 'com.company.project.controller.system.UserController.logout()', null, '192.168.1.112', TO_DATE('2021-01-26 15:20:20', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353968931369082881', '1', 'admin', '菜单权限管理-获取所有菜单权限', 157, 'com.company.project.controller.system.PermissionController.getAllMenusPermission()', null, '192.168.1.112', TO_DATE('2021-01-26 15:32:03', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353969248345219074', '1', 'admin', '菜单权限管理-获取所有目录菜单树', 140, 'com.company.project.controller.system.PermissionController.getAllMenusPermissionTree()', '["33"]', '192.168.1.112', TO_DATE('2021-01-26 15:33:18', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353970166482558977', '1', 'admin', '菜单权限管理-获取所有菜单权限', 121, 'com.company.project.controller.system.PermissionController.getAllMenusPermission()', null, '192.168.1.112', TO_DATE('2021-01-26 15:36:57', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353974911360262145', '1', 'admin', '菜单权限管理-获取所有菜单权限', 111, 'com.company.project.controller.system.PermissionController.getAllMenusPermission()', null, '192.168.1.112', TO_DATE('2021-01-26 15:55:49', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353975050367885314', '1', 'admin', '菜单权限管理-获取所有目录菜单树', 106, 'com.company.project.controller.system.PermissionController.getAllMenusPermissionTree()', '["1341954439204954113"]', '192.168.1.112', TO_DATE('2021-01-26 15:56:22', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352248728968978433', '1', 'admin', '用户管理-分页获取用户列表', 73, 'com.company.project.controller.system.UserController.pageInfo()', '[{}]', '192.168.1.6', TO_DATE('2021-01-21 21:36:35', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255054595973121', '1', 'admin', '角色管理-分页获取角色信息', 21, 'com.company.project.controller.system.RoleController.pageInfo()', '[{}]', '192.168.1.6', TO_DATE('2021-01-21 22:01:43', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255081707954177', '1', 'admin', '角色管理-查询角色详情', 512, 'com.company.project.controller.system.RoleController.detailInfo()', '["1"]', '192.168.1.6', TO_DATE('2021-01-21 22:01:49', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255109923037185', '1', 'admin', '用户管理-分页获取用户列表', 28, 'com.company.project.controller.system.UserController.pageInfo()', '[{}]', '192.168.1.6', TO_DATE('2021-01-21 22:01:56', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255114142507009', '1', 'admin', '角色管理-分页获取角色信息', 137, 'com.company.project.controller.system.RoleController.pageInfo()', '[{}]', '192.168.1.6', TO_DATE('2021-01-21 22:01:57', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255120706592770', '1', 'admin', '角色管理-查询角色详情', 323, 'com.company.project.controller.system.RoleController.detailInfo()', '["1"]', '192.168.1.6', TO_DATE('2021-01-21 22:01:59', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255189946163201', '1', 'admin', '角色管理-更新角色信息', 66, 'com.company.project.controller.system.RoleController.updateDept()', '[{"description":"拥有所有权限-不能删除","id":"1","name":"超级管理员","permissions":["1341953890455773185","1341954439204954113","1342017924945252354","1349239768278458369","1349240658506899458","1349241057997578242","1349241222913417217","1349241368946499585","1349241436298633218","1349241518590877698","1349241762783256577","1349241851895439361","1349241987203686402","1349242181236383746","798990645204090880","798990645204090881","798990645208285184","798990645204090882","798990645204090883","51","53","19","3","36","1311115974068449281","13","39","41","9","12","5","22","38","24","10","57","56","52","42","23","25","54","11","44","43","40","17","26","45","46","47","48","49","59","63","60","61","62","55","18","14","31","32","33","34","35","27","29","30","28","8","7","58","21","15","1","16","20","4","50","1334681073389404162","2","6"],"status":1,"updateTime":1611237735559}]', '192.168.1.6', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255190587891714', '1', 'admin', '角色管理-分页获取角色信息', 14, 'com.company.project.controller.system.RoleController.pageInfo()', '[{"name":""}]', '192.168.1.6', TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255268891353089', '1', 'admin', '用户管理-分页获取用户列表', 12, 'com.company.project.controller.system.UserController.pageInfo()', '[{}]', '192.168.1.6', TO_DATE('2021-01-21 22:02:34', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1352255285228167169', '1', 'admin', '菜单权限管理-获取所有菜单权限', 263, 'com.company.project.controller.system.PermissionController.getAllMenusPermission()', null, '192.168.1.6', TO_DATE('2021-01-21 22:02:38', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353601152803569665', null, null, '用户管理-退出', 9, 'com.company.project.controller.system.UserController.logout()', null, '192.168.1.106', TO_DATE('2021-01-25 15:10:38', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353601202883559426', null, null, '用户管理-退出', 4, 'com.company.project.controller.system.UserController.logout()', null, '192.168.1.106', TO_DATE('2021-01-25 15:10:50', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353601315987161089', null, null, '用户管理-退出', 3, 'com.company.project.controller.system.UserController.logout()', null, '192.168.1.106', TO_DATE('2021-01-25 15:11:17', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353601413999656961', null, null, '用户管理-退出', 5, 'com.company.project.controller.system.UserController.logout()', null, '192.168.1.106', TO_DATE('2021-01-25 15:11:40', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_LOG (ID, USER_ID, USERNAME, OPERATION, TIME, METHOD, PARAMS, IP, CREATE_TIME) VALUES ('1353601457532338177', null, null, '用户管理-退出', 2, 'com.company.project.controller.system.UserController.logout()', null, '192.168.1.106', TO_DATE('2021-01-25 15:11:50', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1', '删除', 'sysGenerator:delete', null, 'sysGenerator/delete', null, '15', 1, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('10', '赋予角色', 'sys:user:role:update', null, '/sys/user/roles/*', null, '24', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('11', '菜单管理', null, 'layui-icon-tabs', '/index/menus', '_self', '54', 9, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('12', '列表', 'sys:dept:list', null, '/sys/depts', null, '41', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('13', '删除', 'sys:role:deleted', null, '/sys/role/*', null, '53', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1311115974068449281', '数据权限', 'sys:role:bindDept', null, '/sys/role/bindDept', '_self', '53', 5, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1334681073389404162', '报表开发', null, null, '/ureport/designer', '_self', '21', 9, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1341953890455773185', '数据仓库', null, 'layui-icon-layouts', null, '_self', '0', 100, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1341954439204954113', '生产数据', null, 'layui-icon-layer', '/index/dp', '_blank', '1341953890455773185', 1, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1342017924945252354', '设备数据', null, 'layui-icon-layer', '/index/sbdp', '_blank', '1341953890455773185', 2, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349239768278458369', '设备管理', null, 'layui-icon-engine', null, '_self', '0', 200, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349240658506899458', '生产管理', null, 'layui-icon-util', null, '_self', '0', 205, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349241057997578242', '打码管理', null, 'layui-icon-camera', null, '_self', '0', 210, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349241222913417217', '质量管理', null, 'layui-icon-component', null, '_self', '0', 215, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349241368946499585', '条码管理', null, 'layui-icon-template-1', null, '_self', '0', 220, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349241436298633218', '物料管理', null, 'layui-icon-template', null, '_self', '0', 225, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349241518590877698', '工艺管理', null, 'layui-icon-fire', null, '_self', '0', 230, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349241762783256577', '自动配组', null, 'layui-icon-release', null, '_self', '0', 235, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349241851895439361', '报表管理', null, 'layui-icon-table', null, '_self', '0', 240, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349241987203686402', '计划管理', null, 'layui-icon-form', null, '_self', '0', 250, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('1349242181236383746', '订单管理', null, 'layui-icon-cart-simple', null, '_self', '0', 255, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('14', '定时任务立即执行', 'sysJob:run', null, '/sysJob/run', '_self', '59', 5, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('15', '代码生成', null, null, '/index/sysGenerator', '_self', '21', 1, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('16', '列表', 'sysGenerator:list', null, 'sysGenerator/listByPage', null, '15', 1, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('17', '详情', 'sys:permission:detail', null, '/sys/permission/*', null, '11', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('18', '定时任务恢复', 'sysJob:resume', null, '/sysJob/resume', '_self', '59', 4, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('19', '列表', 'sys:role:list', null, '/sys/roles', null, '53', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('2', 'SQL 监控', null, null, '/druid/sql.html', '_blank', '21', 98, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('20', '修改', 'sysGenerator:update', null, 'sysGenerator/update', null, '15', 1, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('21', '开发管理', null, 'layui-icon-fonts-html', null, '_self', '0', 20000, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('22', '详情', 'sys:dept:detail', null, '/sys/dept/*', null, '41', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('23', '列表', 'sys:user:list', null, '/sys/users', null, '24', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('24', '用户管理', null, 'layui-icon-user', '/index/users', '_self', '51', 100, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('25', '详情', 'sys:user:detail', null, '/sys/user/*', null, '24', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('26', '删除', 'sys:permission:deleted', null, '/sys/permission/*', null, '11', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('27', '文件管理', null, 'layui-icon-templeate-1', '/index/sysFiles', '_self', '54', 10, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('28', '列表', 'sysFiles:list', null, 'sysFiles/listByPage', null, '27', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('29', '新增', 'sysFiles:add', null, 'sysFiles/add', null, '27', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('3', '新增', 'sys:role:add', null, '/sys/role', null, '53', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('30', '删除', 'sysFiles:delete', null, 'sysFiles/delete', null, '27', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('31', '文章管理', null, 'layui-icon-file', '/index/sysContent', '_self', '54', 10, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('32', '列表', 'sysContent:list', null, 'sysContent/listByPage', null, '31', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('33', '新增', 'sysContent:add', null, 'sysContent/add', null, '31', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('34', '修改', 'sysContent:update', null, 'sysContent/update', null, '31', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('35', '删除', 'sysContent:delete', null, 'sysContent/delete', null, '31', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('36', '更新', 'sys:role:update', null, '/sys/role', null, '53', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('38', '更新', 'sys:dept:update', null, '/sys/dept', null, '41', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('39', '详情', 'sys:role:detail', null, '/sys/role/*', null, '53', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('4', '添加', 'sysGenerator:add', null, 'sysGenerator/add', null, '15', 1, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('40', '编辑', 'sys:permission:update', null, '/sys/permission', null, '11', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('41', '部门管理', null, 'layui-icon-app', '/index/depts', '_self', '51', 100, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('42', '新增', 'sys:user:add', null, '/sys/user', null, '24', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('43', '列表', 'sys:permission:list', null, '/sys/permissions', null, '11', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('44', '新增', 'sys:permission:add', null, '/sys/permission', null, '11', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('45', '字典管理', null, 'layui-icon-menu-fill', '/index/sysDict', '_self', '54', 10, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('46', '列表', 'sysDict:list', null, 'sysDict/listByPage', null, '45', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('47', '新增', 'sysDict:add', null, 'sysDict/add', null, '45', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('48', '修改', 'sysDict:update', null, 'sysDict/update', null, '45', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('49', '删除', 'sysDict:delete', null, 'sysDict/delete', null, '45', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('5', '删除', 'sys:dept:deleted', null, '/sys/dept/*', null, '41', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('50', '表单构建', null, null, '/index/build', '_self', '21', 1, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('51', '组织管理', null, 'layui-icon-user', null, '_self', '0', 18888, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('52', '拥有角色', 'sys:user:role:detail', null, '/sys/user/roles/*', null, '24', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('53', '角色管理', null, 'layui-icon-username', '/index/roles', '_self', '51', 89, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('54', '系统管理', null, 'layui-icon-set-fill', null, '_self', '0', 19999, 1, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('55', '定时任务暂停', 'sysJob:pause', null, '/sysJob/pause', '_self', '59', 1, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('56', '更新', 'sys:user:update', null, '/sys/user', null, '24', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('57', '删除', 'sys:user:deleted', null, '/sys/user', null, '24', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('58', '删除', 'sys:log:deleted', null, '/sys/logs', null, '8', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('59', '定时任务', null, 'layui-icon-console', '/index/sysJob', '_self', '54', 10, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('6', '接口管理', null, null, '/doc.html', '_blank', '21', 100, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('60', '列表', 'sysJob:list', null, 'sysJob/listByPage', null, '59', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('61', '新增', 'sysJob:add', null, 'sysJob/add', null, '59', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('62', '修改', 'sysJob:update', null, 'sysJob/update', null, '59', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('63', '删除', 'sysJob:delete', null, 'sysJob/delete', null, '59', 0, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('7', '列表', 'sys:log:list', null, '/sys/logs', null, '8', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('798990645204090880', '订单信息', null, null, '/index/orderInfo', '_self', '1349242181236383746', 10, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('798990645204090881', '新增', 'orderInfo:add', null, 'orderInfo/add', null, '798990645204090880', null, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('798990645204090882', '修改', 'orderInfo:update', null, 'orderInfo/update', null, '798990645204090880', null, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('798990645204090883', '删除', 'orderInfo:delete', null, 'orderInfo/delete', null, '798990645204090880', null, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('798990645208285184', '列表', 'orderInfo:list', null, 'orderInfo/listByPage', null, '798990645204090880', null, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('8', '日志管理', null, 'layui-icon-survey', '/index/logs', '_self', '54', 97, 2, 1, null, null, 1);
+INSERT INTO CP.SYS_PERMISSION (ID, NAME, PERMS, ICON, URL, TARGET, PID, ORDER_NUM, TYPE, STATUS, CREATE_TIME, UPDATE_TIME, DELETED) VALUES ('9', '新增', 'sys:dept:add', null, '/sys/dept', null, '41', 100, 3, 1, null, null, 1);
+INSERT INTO CP.SYS_ROLE (ID, NAME, DESCRIPTION, STATUS, CREATE_TIME, UPDATE_TIME, DELETED, DATA_SCOPE) VALUES ('1', '超级管理员', '拥有所有权限-不能删除', 1, null, TO_DATE('2021-01-21 22:02:15', 'YYYY-MM-DD HH24:MI:SS'), 1, null);
+INSERT INTO CP.SYS_ROLE (ID, NAME, DESCRIPTION, STATUS, CREATE_TIME, UPDATE_TIME, DELETED, DATA_SCOPE) VALUES ('1352248544507682818', '开发人员', '开发人员专用账号', 1, TO_DATE('2021-01-21 21:35:51', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2021-01-21 21:36:04', 'YYYY-MM-DD HH24:MI:SS'), 1, 2);
+INSERT INTO CP.SYS_ROLE_DEPT (ID, ROLE_ID, DEPT_ID, CREATE_TIME) VALUES ('1352248599318847490', '1352248544507682818', '1', TO_DATE('2021-01-21 21:36:04', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO CP.SYS_USER (ID, USERNAME, SALT, PASSWORD, PHONE, DEPT_ID, REAL_NAME, NICK_NAME, EMAIL, STATUS, SEX, DELETED, CREATE_ID, UPDATE_ID, CREATE_WHERE, CREATE_TIME, UPDATE_TIME) VALUES ('1', 'admin', '324ce32d86224b00a02b', '2102b59a75ab87616b62d0b9432569d0', '13888888888', '1', '爱糖宝', '爱糖宝', 'xxxxxx@163.com', 1, 2, 1, '1', '1', 3, null, null);
+INSERT INTO CP.SYS_USER_ROLE (ID, USER_ID, ROLE_ID, CREATE_TIME) VALUES ('1', '1', '1', null);
